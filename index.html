@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diabetes Survival Game</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f5f5f4;
+      --bg-tertiary: #eeede8;
+      --bg-info: #e6f1fb;
+      --bg-success: #eaf3de;
+      --bg-warning: #faeeda;
+      --bg-danger: #fcebeb;
+      --text-primary: #1a1a18;
+      --text-secondary: #5f5e5a;
+      --text-tertiary: #888780;
+      --text-info: #0c447c;
+      --text-success: #27500a;
+      --text-warning: #633806;
+      --text-danger: #791f1f;
+      --border-tertiary: rgba(0,0,0,0.1);
+      --border-secondary: rgba(0,0,0,0.2);
+      --border-info: rgba(12,68,124,0.35);
+      --border-success: rgba(39,80,10,0.35);
+      --border-warning: rgba(99,56,6,0.35);
+      --border-danger: rgba(121,31,31,0.35);
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-primary: #1e1e1c;
+        --bg-secondary: #2a2a28;
+        --bg-tertiary: #333330;
+        --bg-info: #0c2840;
+        --bg-success: #172804;
+        --bg-warning: #2a1802;
+        --bg-danger: #2a0c0c;
+        --text-primary: #e8e6de;
+        --text-secondary: #b4b2a9;
+        --text-tertiary: #888780;
+        --text-info: #85b7eb;
+        --text-success: #97c459;
+        --text-warning: #fac775;
+        --text-danger: #f09595;
+        --border-tertiary: rgba(255,255,255,0.1);
+        --border-secondary: rgba(255,255,255,0.2);
+        --border-info: rgba(133,183,235,0.35);
+        --border-success: rgba(151,196,89,0.35);
+        --border-warning: rgba(250,199,117,0.35);
+        --border-danger: rgba(240,149,149,0.35);
+      }
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    #game {
+      width: 100%;
+      max-width: 680px;
+      background: var(--bg-primary);
+      border-radius: 16px;
+      border: 0.5px solid var(--border-tertiary);
+      padding: 1.5rem;
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .badge-info    { background: var(--bg-info);    color: var(--text-info);    border: 0.5px solid var(--border-info); }
+    .badge-warning { background: var(--bg-warning); color: var(--text-warning); border: 0.5px solid var(--border-warning); }
+    .badge-neutral { background: var(--bg-secondary); color: var(--text-secondary); border: 0.5px solid var(--border-tertiary); }
+
+    .patient-card {
+      border: 0.5px solid var(--border-tertiary);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      background: var(--bg-primary);
+      margin-bottom: 1rem;
+    }
+
+    .patient-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg-info);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      font-size: 15px;
+      color: var(--text-info);
+      flex-shrink: 0;
+    }
+
+    .patient-name { font-size: 15px; font-weight: 500; }
+    .patient-sub  { font-size: 12px; color: var(--text-secondary); }
+
+    .glucose-display {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 0.5rem;
+    }
+
+    .glucose-num {
+      font-size: 48px;
+      font-weight: 500;
+      line-height: 1;
+      transition: color 0.5s;
+    }
+
+    .glucose-unit  { font-size: 14px; color: var(--text-secondary); }
+    .glucose-trend { font-size: 20px; transition: all 0.3s; }
+
+    .glucose-bar-wrap {
+      position: relative;
+      height: 12px;
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      overflow: visible;
+    }
+
+    .glucose-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.5s, background 0.5s;
+    }
+
+    .zone-marker {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      border-left: 1px dashed var(--border-secondary);
+    }
+
+    .zone-label {
+      position: absolute;
+      top: -18px;
+      font-size: 10px;
+      color: var(--text-tertiary);
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    .status-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .stat-chip {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 0.5px solid var(--border-tertiary);
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+    }
+
+    .stat-chip.ok      { background: var(--bg-success); color: var(--text-success); border-color: var(--border-success); }
+    .stat-chip.warn    { background: var(--bg-warning); color: var(--text-warning); border-color: var(--border-warning); }
+    .stat-chip.danger  { background: var(--bg-danger);  color: var(--text-danger);  border-color: var(--border-danger); }
+
+    .alert-box {
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      border: 0.5px solid var(--border-tertiary);
+      background: var(--bg-secondary);
+      min-height: 48px;
+      transition: all 0.3s;
+    }
+
+    .alert-box.ok     { background: var(--bg-success); color: var(--text-success); border-color: var(--border-success); }
+    .alert-box.warn   { background: var(--bg-warning); color: var(--text-warning); border-color: var(--border-warning); }
+    .alert-box.danger { background: var(--bg-danger);  color: var(--text-danger);  border-color: var(--border-danger); }
+
+    .section-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .action-btn {
+      padding: 0.6rem 0.75rem;
+      border: 0.5px solid var(--border-secondary);
+      border-radius: var(--radius-md);
+      background: var(--bg-primary);
+      cursor: pointer;
+      font-size: 13px;
+      font-family: var(--font);
+      color: var(--text-primary);
+      text-align: left;
+      transition: all 0.15s;
+      line-height: 1.4;
+    }
+
+    .action-btn:hover:not(:disabled) { background: var(--bg-secondary); }
+    .action-btn:active:not(:disabled) { transform: scale(0.98); }
+    .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .action-btn .abtn-name   { font-weight: 500; display: block; margin-bottom: 2px; }
+    .action-btn .abtn-effect { font-size: 11px; color: var(--text-secondary); }
+
+    .graph-wrap { margin-bottom: 1rem; }
+
+    .graph-canvas {
+      width: 100%;
+      height: 80px;
+      display: block;
+      border-radius: var(--radius-md);
+    }
+
+    .history-wrap {
+      border: 0.5px solid var(--border-tertiary);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .history-header {
+      padding: 0.5rem 0.75rem;
+      background: var(--bg-secondary);
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .history-list { max-height: 130px; overflow-y: auto; }
+
+    .history-item {
+      padding: 0.4rem 0.75rem;
+      font-size: 12px;
+      border-top: 0.5px solid var(--border-tertiary);
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .history-item .htime { color: var(--text-tertiary); min-width: 40px; font-size: 11px; }
+    .history-item .hmsg  { flex: 1; }
+    .history-item.ok     .hmsg { color: var(--text-success); }
+    .history-item.warn   .hmsg { color: var(--text-warning); }
+    .history-item.danger .hmsg { color: var(--text-danger);  }
+
+    /* Game Over / Win screens */
+    .end-screen {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .end-title {
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .end-sub {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .fact-box {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      font-size: 13px;
+      line-height: 1.6;
+      text-align: left;
+      max-width: 480px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .big-score {
+      font-size: 56px;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .score-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .final-meta {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 24px;
+      border: 0.5px solid var(--border-secondary);
+      border-radius: var(--radius-md);
+      background: var(--bg-primary);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: var(--font);
+      color: var(--text-primary);
+      transition: all 0.15s;
+      margin: 4px;
+      text-decoration: none;
+    }
+
+    .btn:hover { background: var(--bg-secondary); }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary {
+      background: var(--bg-info);
+      color: var(--text-info);
+      border-color: var(--border-info);
+    }
+    .btn-primary:hover { opacity: 0.85; background: var(--bg-info); }
+
+    .hidden { display: none !important; }
+
+    /* Target range legend */
+    .legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-dot  { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+<div id="game">
+  <h1>Diabetes survival game</h1>
+  <p class="subtitle">Keep Alex alive for 7 days by managing their Type 1 diabetes. Target: 3.9–7.0 mmol/L.</p>
+
+  <!-- MAIN GAME -->
+  <div id="main-game">
+    <div class="top-bar">
+      <span class="badge badge-info"    id="day-badge">Day 1</span>
+      <span class="badge badge-warning" id="time-badge">8:00 AM</span>
+      <span class="badge badge-neutral" id="score-badge">Score: 0</span>
+      <span class="badge badge-neutral" id="streak-badge">Streak: 0</span>
+    </div>
+
+    <div class="patient-card">
+      <div class="patient-header">
+        <div class="avatar">AJ</div>
+        <div>
+          <div class="patient-name">Alex Johnson</div>
+          <div class="patient-sub">Type 1 diabetes &mdash; your patient</div>
+        </div>
+      </div>
+
+      <div class="glucose-display">
+        <span class="glucose-num" id="gnum">5.4</span>
+        <span class="glucose-unit">mmol/L</span>
+        <span class="glucose-trend" id="gtrend">&rarr;</span>
+      </div>
+
+      <div class="glucose-bar-wrap">
+        <div class="glucose-bar-fill" id="gbar" style="width:35%;background:#1D9E75"></div>
+        <div class="zone-marker" style="left:20%"><span class="zone-label">3.9</span></div>
+        <div class="zone-marker" style="left:46%"><span class="zone-label">7.0</span></div>
+        <div class="zone-marker" style="left:65%"><span class="zone-label">10</span></div>
+      </div>
+
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#E24B4A"></span>Hypo &lt;3.9</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#1D9E75"></span>Target 3.9&ndash;7.0</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#EF9F27"></span>Raised 7&ndash;10</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#C62828"></span>Hyper &gt;10</span>
+      </div>
+
+      <div class="status-row">
+        <span class="stat-chip ok"  id="chip-glucose">Normal glucose</span>
+        <span class="stat-chip"     id="chip-food">Fasting</span>
+        <span class="stat-chip"     id="chip-insulin">No recent insulin</span>
+        <span class="stat-chip"     id="chip-exercise">Sedentary</span>
+      </div>
+    </div>
+
+    <div class="graph-wrap">
+      <canvas class="graph-canvas" id="gchart"></canvas>
+    </div>
+
+    <div class="alert-box ok" id="alert-box">Alex is feeling good. Blood glucose is in the normal range.</div>
+
+    <div class="section-label">Choose an action</div>
+    <div class="actions-grid" id="actions-grid"></div>
+
+    <div class="history-wrap">
+      <div class="history-header">Event log</div>
+      <div class="history-list" id="history-list"></div>
+    </div>
+  </div>
+
+  <!-- GAME OVER -->
+  <div id="game-over-screen" class="hidden">
+    <div class="end-screen">
+      <div class="end-title" id="go-title">Game over</div>
+      <div class="end-sub"  id="go-sub"></div>
+      <div class="fact-box" id="go-fact"></div>
+      <p class="final-meta">Final score: <strong id="go-score">0</strong> &nbsp;&mdash;&nbsp; Days survived: <strong id="go-days">0</strong></p>
+      <button class="btn btn-primary" onclick="initGame()">Try again</button>
+    </div>
+  </div>
+
+  <!-- WIN -->
+  <div id="win-screen" class="hidden">
+    <div class="end-screen">
+      <div class="big-score"  id="win-score">0</div>
+      <div class="score-label">points &mdash; 7 days survived!</div>
+      <div class="fact-box">
+        You kept Alex alive and healthy for a full week. Managing Type 1 diabetes requires insulin doses, careful eating, and balancing exercise &mdash; every single day, for life. Real patients use continuous glucose monitors (CGMs) and insulin pumps to help automate some of this.
+      </div>
+      <button class="btn btn-primary" onclick="initGame()">Play again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var glucose = 5.4, prevGlucose = 5.4;
+  var day = 1, hour = 8, minute = 0;
+  var score = 0, streak = 0;
+  var gameActive = true;
+  var recentInsulin = 0, recentFood = 0, recentExercise = 0;
+  var glucoseHistory = [];
+  var logHistory = [];
+  var tickInterval = null;
+  var daysComplete = 0;
+  var lastActionTime = -99;
+  var timeSteps = 0;
+  var actionCooldowns = {};
+
+  var EVENTS = [
+    { effect: function () { if (hour >= 8 && hour < 10) { glucose -= 1.5; addLog('Skipped breakfast — glucose dropping', 'warn'); } }, hour: 9,  prob: 0.15 },
+    { effect: function () { glucose += 1.8; addLog('Stressful meeting — adrenaline raises glucose', 'warn'); },                             hour: 10, prob: 0.20 },
+    { effect: function () { glucose -= 0.8; addLog('Walked to work — light exercise lowers glucose', 'ok'); },                             hour: 8,  prob: 0.20 },
+    { effect: function () { glucose += 2.2; addLog('Unplanned afternoon snack — glucose rising', 'warn'); },                               hour: 15, prob: 0.25 },
+    { effect: function () { glucose -= 2.5; addLog('Gym session — significant glucose drop', 'warn'); },                                   hour: 18, prob: 0.20 },
+    { effect: function () { glucose += 3.5; addLog('Large dinner with bread and pasta — glucose spike', 'warn'); },                        hour: 19, prob: 0.30 },
+    { effect: function () { if (glucose > 5) { glucose -= 1.2; } addLog('Overnight glucose drifting down', 'warn'); },                    hour: 2,  prob: 0.30 },
+    { effect: function () { glucose += 1.5; addLog('Dawn phenomenon — cortisol causes glucose to rise', 'warn'); },                       hour: 6,  prob: 0.35 },
+  ];
+
+  var ACTIONS = [
+    {
+      id: 'small_meal', name: 'Small snack', desc: '+1.5 mmol/L',
+      effect: function () { glucose += 1.5; recentFood = 4; return 'Ate a small snack. Glucose will rise slowly.'; },
+      cooldown: 0, activeWhen: function () { return glucose < 7; }
+    },
+    {
+      id: 'medium_meal', name: 'Regular meal', desc: '+3.0 mmol/L',
+      effect: function () { glucose += 3.0; recentFood = 6; return 'Ate a balanced meal. Glucose rising over the next 30 min.'; },
+      cooldown: 0, activeWhen: function () { return true; }
+    },
+    {
+      id: 'large_meal', name: 'High-carb meal', desc: '+5.0 mmol/L',
+      effect: function () { glucose += 5.0; recentFood = 8; return 'Ate pasta/bread — large carb load. Glucose will spike.'; },
+      cooldown: 0, activeWhen: function () { return true; }
+    },
+    {
+      id: 'fast_insulin', name: 'Fast-acting insulin', desc: '-2.0 mmol/L',
+      effect: function () { glucose -= 2.0; recentInsulin = 5; return 'Injected fast-acting insulin (e.g. NovoRapid). Glucose will fall over 1–2 hrs.'; },
+      cooldown: 4, activeWhen: function () { return glucose > 6; }
+    },
+    {
+      id: 'basal_insulin', name: 'Basal insulin', desc: '-0.8 mmol/L slow',
+      effect: function () { glucose -= 0.8; recentInsulin = 3; return 'Basal insulin given — slow steady reduction over several hours.'; },
+      cooldown: 8, activeWhen: function () { return glucose > 5; }
+    },
+    {
+      id: 'glucose_gel', name: 'Glucose gel', desc: '+2.5 fast',
+      effect: function () { glucose += 2.5; return 'Glucose gel absorbed rapidly — for emergency hypoglycaemia.'; },
+      cooldown: 0, activeWhen: function () { return glucose < 4.5; }
+    },
+    {
+      id: 'light_exercise', name: 'Light walk', desc: '-0.5 mmol/L',
+      effect: function () { glucose -= 0.5; recentExercise = 3; return 'Light walk — gentle glucose reduction, improves insulin sensitivity.'; },
+      cooldown: 0, activeWhen: function () { return glucose > 4; }
+    },
+    {
+      id: 'intense_exercise', name: 'Intense exercise', desc: '-2.5 mmol/L',
+      effect: function () { glucose -= 2.5; recentExercise = 6; return 'Intense exercise — significant glucose drop. Monitor carefully.'; },
+      cooldown: 0, activeWhen: function () { return glucose > 5; }
+    },
+    {
+      id: 'blood_test', name: 'Check bloods', desc: 'See full status',
+      effect: function () {
+        var trend = glucose > prevGlucose ? 'rising' : glucose < prevGlucose ? 'falling' : 'stable';
+        return 'Glucose: ' + glucose.toFixed(1) + ' mmol/L (' + trend + '). Insulin: ' + (recentInsulin > 0 ? 'active' : 'none') + '. Last meal: ' + (recentFood > 0 ? 'recent' : '>1hr ago') + '. Exercise: ' + (recentExercise > 0 ? 'recent' : 'none') + '.';
+      },
+      cooldown: 0, activeWhen: function () { return true; }
+    },
+    {
+      id: 'call_doctor', name: 'Consult doctor', desc: 'Get advice',
+      effect: function () {
+        if (glucose < 3.9) return 'URGENT: Give glucose gel immediately — hypoglycaemia is dangerous. Do NOT give insulin.';
+        if (glucose < 5.0) return 'Glucose on the low side — consider a small snack, especially before exercise or sleep.';
+        if (glucose <= 7.0) return 'Glucose in the ideal range. Maintain current balance of food, insulin and exercise.';
+        if (glucose <= 10.0) return 'Slightly elevated — if post-meal it may normalise. Otherwise consider fast-acting insulin.';
+        if (glucose <= 14.0) return 'High glucose. Give fast-acting insulin and avoid carbs. Monitor closely.';
+        return 'Critically high. Give insulin immediately. Risk of DKA. Consider urgent medical attention.';
+      },
+      cooldown: 0, activeWhen: function () { return true; }
+    },
+  ];
+
+  function clamp(v, mn, mx) { return Math.max(mn, Math.min(mx, v)); }
+
+  function timeStr() {
+    var h = hour % 12 || 12;
+    var ampm = (hour < 12 || hour === 0) ? 'AM' : 'PM';
+    var m = minute < 10 ? '0' + minute : minute;
+    return h + ':' + m + ' ' + ampm;
+  }
+
+  function glucoseColor(g) {
+    if (g < 3.0)  return '#C62828';
+    if (g < 3.9)  return '#E24B4A';
+    if (g <= 7.0) return '#1D9E75';
+    if (g <= 10.0)return '#EF9F27';
+    if (g <= 14.0)return '#D85A30';
+    return '#C62828';
+  }
+
+  function addLog(msg, type, t) {
+    logHistory.unshift({ time: t || timeStr(), msg: msg, type: type || '' });
+    if (logHistory.length > 30) logHistory.pop();
+    renderLog();
+  }
+
+  function renderLog() {
+    var el = document.getElementById('history-list');
+    if (!el) return;
+    el.innerHTML = logHistory.map(function (h) {
+      return '<div class="history-item ' + h.type + '">' +
+        '<span class="htime">' + h.time + '</span>' +
+        '<span class="hmsg">' + h.msg + '</span></div>';
+    }).join('');
+  }
+
+  function getAlertMsg() {
+    if (glucose < 2.5)  return { cls: 'danger', msg: 'EMERGENCY: Alex is unconscious — severe hypoglycaemia. Blood glucose below 2.5 mmol/L. Cells cannot function without glucose.' };
+    if (glucose < 3.0)  return { cls: 'danger', msg: 'CRITICAL: Alex is confused and shaking. Glucose dangerously low — administer glucose gel immediately.' };
+    if (glucose < 3.9)  return { cls: 'danger', msg: 'Hypoglycaemia: Alex feels dizzy, sweaty and anxious. Blood glucose below 3.9 mmol/L — give fast sugar now.' };
+    if (glucose > 15.0) return { cls: 'danger', msg: 'CRITICAL: Glucose dangerously high. Alex is nauseous and very thirsty. Risk of diabetic ketoacidosis (DKA) — give insulin now.' };
+    if (glucose > 12.0) return { cls: 'danger', msg: 'Hyperglycaemia: Alex has a headache and is very thirsty. Glucose >12 mmol/L — needs insulin soon.' };
+    if (glucose > 10.0) return { cls: 'warn',   msg: 'Glucose elevated (>10 mmol/L). Glucose is appearing in Alex\'s urine (glycosuria). Consider insulin or light exercise.' };
+    if (glucose > 7.0)  return { cls: 'warn',   msg: 'Glucose slightly raised — normal post-meal range. Monitor; should come down within 2 hours.' };
+    return { cls: 'ok', msg: 'Alex is feeling well. Glucose is in the target range (3.9–7.0 mmol/L). Good work!' };
+  }
+
+  function updateDisplay() {
+    var col = glucoseColor(glucose);
+
+    var gnumEl = document.getElementById('gnum');
+    gnumEl.textContent = glucose.toFixed(1);
+    gnumEl.style.color = col;
+
+    var bar = document.getElementById('gbar');
+    bar.style.width = clamp((glucose / 20) * 100, 2, 98) + '%';
+    bar.style.background = col;
+
+    var diff = glucose - prevGlucose;
+    var trend = document.getElementById('gtrend');
+    trend.textContent = diff > 0.3 ? '↑' : diff < -0.3 ? '↓' : '→';
+    trend.style.color = col;
+
+    // Status chips
+    var gc = 'ok', gt = 'Normal glucose';
+    if (glucose < 3.0)       { gc = 'danger'; gt = 'CRITICAL low'; }
+    else if (glucose < 3.9)  { gc = 'danger'; gt = 'Hypoglycaemia'; }
+    else if (glucose > 14.0) { gc = 'danger'; gt = 'Critically high'; }
+    else if (glucose > 10.0) { gc = 'danger'; gt = 'High glucose'; }
+    else if (glucose > 7.0)  { gc = 'warn';   gt = 'Raised glucose'; }
+
+    setChip('chip-glucose',  gc, gt);
+    setChip('chip-food',     recentFood > 0 ? 'warn' : '',     recentFood > 0 ? 'Recently ate' : 'Fasting');
+    setChip('chip-insulin',  recentInsulin > 0 ? 'ok' : '',   recentInsulin > 0 ? 'Insulin active' : 'No recent insulin');
+    setChip('chip-exercise', recentExercise > 0 ? 'ok' : '',  recentExercise > 0 ? 'Recently exercised' : 'Sedentary');
+
+    var alert = getAlertMsg();
+    var abox = document.getElementById('alert-box');
+    abox.className = 'alert-box ' + alert.cls;
+    abox.textContent = alert.msg;
+
+    document.getElementById('day-badge').textContent   = 'Day ' + day;
+    document.getElementById('time-badge').textContent  = timeStr();
+    document.getElementById('score-badge').textContent = 'Score: ' + score;
+    document.getElementById('streak-badge').textContent= 'Streak: ' + streak;
+
+    renderActions();
+    drawGraph();
+  }
+
+  function setChip(id, cls, text) {
+    var el = document.getElementById(id);
+    el.className = 'stat-chip ' + (cls || '');
+    el.textContent = text;
+  }
+
+  function renderActions() {
+    var grid = document.getElementById('actions-grid');
+    if (!grid) return;
+    grid.innerHTML = ACTIONS.map(function (a) {
+      var cd = (actionCooldowns[a.id] || 0) > 0;
+      var canUse = a.activeWhen() && !cd;
+      var cdText = cd ? ' (wait ' + actionCooldowns[a.id] + ')' : '';
+      return '<button class="action-btn" onclick="doAction(\'' + a.id + '\')" ' + (canUse ? '' : 'disabled') + '>' +
+        '<span class="abtn-name">' + a.name + '</span>' +
+        '<span class="abtn-effect">' + a.desc + cdText + '</span>' +
+        '</button>';
+    }).join('');
+  }
+
+  window.doAction = function (id) {
+    if (!gameActive) return;
+    var a = ACTIONS.find(function (x) { return x.id === id; });
+    if (!a || (actionCooldowns[a.id] || 0) > 0 || !a.activeWhen()) return;
+
+    prevGlucose = glucose;
+    var msg = a.effect();
+    glucose = clamp(glucose, 1.0, 22.0);
+
+    if (a.cooldown > 0) actionCooldowns[a.id] = a.cooldown;
+
+    score += 10;
+    streak++;
+    lastActionTime = timeSteps;
+
+    glucoseHistory.push(glucose);
+    addLog(a.name + ': ' + msg, '');
+    checkGameState();
+    updateDisplay();
+  };
+
+  function tick() {
+    if (!gameActive) return;
+    timeSteps++;
+    prevGlucose = glucose;
+
+    minute += 30;
+    if (minute >= 60) { minute = 0; hour++; }
+    if (hour >= 24) {
+      hour = 0; day++; daysComplete++;
+      score += 50; streak = 0;
+      addLog('New day — Day ' + day + ' begins', 'ok');
+    }
+    if (daysComplete >= 7) { winGame(); return; }
+
+    if (recentInsulin > 0)  recentInsulin--;
+    if (recentFood > 0)     recentFood--;
+    if (recentExercise > 0) recentExercise--;
+    Object.keys(actionCooldowns).forEach(function (k) { if (actionCooldowns[k] > 0) actionCooldowns[k]--; });
+
+    var drift = 0;
+    if (recentFood > 0)     drift += 0.15;
+    if (recentInsulin > 0)  drift -= 0.20;
+    if (recentExercise > 0) drift -= 0.10;
+    if (glucose > 7.0)      drift -= 0.05;
+    if (glucose < 4.5)      drift += 0.05;
+
+    glucose += drift + (Math.random() - 0.5) * 0.2;
+    glucose = clamp(glucose, 1.0, 22.0);
+
+    EVENTS.forEach(function (ev) {
+      if (hour === ev.hour && Math.random() < ev.prob) {
+        ev.effect();
+        glucose = clamp(glucose, 1.0, 22.0);
+      }
+    });
+
+    if (timeSteps - lastActionTime > 4) score = Math.max(0, score - 2);
+
+    glucoseHistory.push(glucose);
+    if (glucoseHistory.length > 48) glucoseHistory.shift();
+
+    checkGameState();
+    updateDisplay();
+  }
+
+  function checkGameState() {
+    if (glucose < 2.0) {
+      gameOver(
+        'Alex has died from severe hypoglycaemia',
+        'Blood glucose fell below 2.0 mmol/L — brain cells cannot survive without glucose. This is a life-threatening emergency requiring immediate intravenous glucose.',
+        'Hypoglycaemia below 2.5 mmol/L can cause seizures, permanent brain damage, and death. Patients with Type 1 diabetes are taught to always carry fast-acting sugar (glucose tablets or gel) and wear medical ID.'
+      );
+    } else if (glucose > 18.0) {
+      gameOver(
+        'Alex has died from diabetic ketoacidosis (DKA)',
+        'Blood glucose exceeded 18 mmol/L for too long. Without insulin, the body breaks down fat for energy, producing acidic ketones that poison the blood.',
+        'DKA is a life-threatening complication of Type 1 diabetes. It requires emergency hospital treatment with insulin infusion, IV fluids, and electrolyte replacement. It is entirely preventable with correct insulin management.'
+      );
+    }
+  }
+
+  function gameOver(title, sub, fact) {
+    gameActive = false;
+    clearInterval(tickInterval);
+    document.getElementById('main-game').classList.add('hidden');
+    document.getElementById('game-over-screen').classList.remove('hidden');
+    document.getElementById('go-title').textContent = title;
+    document.getElementById('go-sub').textContent   = sub;
+    document.getElementById('go-fact').textContent  = fact;
+    document.getElementById('go-score').textContent = score;
+    document.getElementById('go-days').textContent  = daysComplete;
+  }
+
+  function winGame() {
+    gameActive = false;
+    clearInterval(tickInterval);
+    document.getElementById('main-game').classList.add('hidden');
+    document.getElementById('win-screen').classList.remove('hidden');
+    document.getElementById('win-score').textContent = score;
+  }
+
+  function drawGraph() {
+    var canvas = document.getElementById('gchart');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var W = canvas.offsetWidth || 600;
+    var H = 80;
+    canvas.width = W; canvas.height = H;
+    ctx.clearRect(0, 0, W, H);
+
+    var isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var gridCol = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)';
+    var textCol = isDark ? 'rgba(255,255,255,0.3)'  : 'rgba(0,0,0,0.3)';
+
+    [3.9, 7.0, 10.0].forEach(function (g) {
+      var y = H - (g / 20) * H;
+      ctx.strokeStyle = gridCol; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = textCol; ctx.font = '10px ' + (getComputedStyle(document.body).fontFamily || 'sans-serif');
+      ctx.fillText(g, 3, y - 3);
+    });
+
+    if (glucoseHistory.length < 2) return;
+    var pts = glucoseHistory.slice(-48);
+    var stepW = W / Math.max(pts.length - 1, 1);
+
+    ctx.beginPath();
+    pts.forEach(function (g, i) {
+      var x = i * stepW;
+      var y = H - (g / 20) * H;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = '#378ADD'; ctx.lineWidth = 2; ctx.setLineDash([]);
+    ctx.stroke();
+
+    var last = pts[pts.length - 1];
+    var lx = (pts.length - 1) * stepW;
+    var ly = H - (last / 20) * H;
+    ctx.beginPath(); ctx.arc(lx, ly, 3, 0, Math.PI * 2);
+    ctx.fillStyle = glucoseColor(last); ctx.fill();
+  }
+
+  window.initGame = function () {
+    glucose     = 5.2 + Math.random() * 0.6;
+    prevGlucose = glucose;
+    day = 1; hour = 8; minute = 0;
+    score = 0; streak = 0;
+    recentInsulin = 0; recentFood = 0; recentExercise = 0;
+    glucoseHistory  = [glucose];
+    logHistory      = [];
+    actionCooldowns = {};
+    gameActive      = true;
+    daysComplete    = 0;
+    timeSteps       = 0;
+    lastActionTime  = -99;
+
+    document.getElementById('main-game').classList.remove('hidden');
+    document.getElementById('game-over-screen').classList.add('hidden');
+    document.getElementById('win-screen').classList.add('hidden');
+
+    addLog('Game start — Alex wakes up. Glucose: ' + glucose.toFixed(1) + ' mmol/L', 'ok', '8:00 AM');
+    addLog('Keep glucose between 3.9–7.0 mmol/L for 7 days!', '', '8:00 AM');
+
+    if (tickInterval) clearInterval(tickInterval);
+    tickInterval = setInterval(tick, 2000);
+    updateDisplay();
+  };
+
+  initGame();
+})();
+</script>
+</body>
+</html>
