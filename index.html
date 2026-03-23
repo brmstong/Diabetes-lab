@@ -14,8 +14,7 @@
   --brt:rgba(0,0,0,0.1);--brs:rgba(0,0,0,0.22);
   --bri:rgba(12,68,124,0.4);--brc:rgba(39,80,10,0.4);
   --brw:rgba(99,56,6,0.4);--brd:rgba(121,31,31,0.4);
-  --r:8px;--rl:12px;
-  --f:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif
+  --r:8px;--rl:12px;--f:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif
 }
 @media(prefers-color-scheme:dark){:root{
   --bg:#1c1c1a;--bg2:#272725;--bg3:#2e2e2c;
@@ -28,67 +27,45 @@
 }}
 body{font-family:var(--f);background:var(--bg3);color:var(--tx);min-height:100vh;padding:1rem}
 #wrap{max-width:680px;margin:0 auto}
-.card{background:var(--bg);border:0.5px solid var(--brt);border-radius:var(--rl);padding:1.25rem;margin-bottom:.75rem}
-
-/* top bar */
-.topbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem}
+.card{background:var(--bg);border:0.5px solid var(--brt);border-radius:var(--rl);padding:1.25rem;margin-bottom:.75rem;position:relative}
+.topbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem;align-items:center}
 .badge{font-size:12px;font-weight:500;padding:3px 10px;border-radius:20px;border:0.5px solid var(--brt);white-space:nowrap}
 .bi{background:var(--bgi);color:var(--txi);border-color:var(--bri)}
 .bw{background:var(--bgw);color:var(--txw);border-color:var(--brw)}
 .bd{background:var(--bgd);color:var(--txd);border-color:var(--brd)}
 .bs{background:var(--bgs);color:var(--txs);border-color:var(--brc)}
 .bn{background:var(--bg2);color:var(--tx2)}
-
-/* patient */
 .prow{display:flex;align-items:center;gap:10px;margin-bottom:.75rem}
 .avi{width:42px;height:42px;border-radius:50%;background:var(--bgi);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;color:var(--txi);flex-shrink:0}
 #mood{font-size:26px;margin-left:auto;transition:all .4s}
-
-/* glucose display */
 .grow{display:flex;align-items:baseline;gap:4px;margin-bottom:.4rem}
 #gnum{font-size:54px;font-weight:500;line-height:1;transition:color .4s}
 .gunit{font-size:13px;color:var(--tx2)}
 #gtrend{font-size:20px;transition:all .3s}
-
 .barwrap{position:relative;height:12px;background:var(--bg2);border-radius:6px;margin-bottom:.35rem;overflow:visible}
 .barfill{height:100%;border-radius:6px;transition:width .5s,background .5s}
-.zm{position:absolute;top:0;bottom:0;border-left:1px dashed rgba(128,128,128,0.35)}
+.zm{position:absolute;top:0;bottom:0;border-left:1px dashed rgba(128,128,128,0.3)}
 .zl{position:absolute;top:-15px;font-size:9px;color:var(--tx3);transform:translateX(-50%)}
-
 .legend{display:flex;gap:8px;flex-wrap:wrap;font-size:11px;color:var(--tx2);margin-bottom:.75rem}
 .ld{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:2px;vertical-align:middle}
-
-/* chips */
 .chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.75rem}
 .chip{font-size:11px;padding:2px 8px;border-radius:20px;border:0.5px solid var(--brt);background:var(--bg2);color:var(--tx2)}
 .chip.ok{background:var(--bgs);color:var(--txs);border-color:var(--brc)}
 .chip.warn{background:var(--bgw);color:var(--txw);border-color:var(--brw)}
 .chip.danger{background:var(--bgd);color:var(--txd);border-color:var(--brd)}
-
-/* alert */
 .alertbox{border-radius:var(--r);padding:.65rem .9rem;font-size:13px;line-height:1.55;margin-bottom:.75rem;border:0.5px solid var(--brt);background:var(--bg2);transition:all .3s}
 .alertbox.ok{background:var(--bgs);color:var(--txs);border-color:var(--brc)}
 .alertbox.warn{background:var(--bgw);color:var(--txw);border-color:var(--brw)}
 .alertbox.danger{background:var(--bgd);color:var(--txd);border-color:var(--brd)}
-
-/* event banner — big and loud */
-.evbanner{border-radius:var(--r);padding:.85rem 1rem;font-size:14px;font-weight:500;line-height:1.55;margin-bottom:.5rem;border:2px solid var(--brw);background:var(--bgw);color:var(--txw);display:none;animation:pulse .5s ease}
-.evbanner.show{display:block}
-.evbanner.danger{border-color:var(--brd);background:var(--bgd);color:var(--txd)}
-.evbanner.ok{border-color:var(--brc);background:var(--bgs);color:var(--txs)}
-@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.01)}100%{transform:scale(1)}}
-
+.evbanner{border-radius:var(--r);padding:.85rem 1rem;font-size:14px;font-weight:500;line-height:1.55;margin-bottom:.5rem;border:2px solid var(--brw);background:var(--bgw);color:var(--txw);display:none}
+.evbanner.show{display:block;animation:pop .3s ease}
+.evbanner.edanger{border-color:var(--brd);background:var(--bgd);color:var(--txd)}
+.evbanner.eok{border-color:var(--brc);background:var(--bgs);color:var(--txs)}
+.evbanner.einfo{border-color:var(--bri);background:var(--bgi);color:var(--txi)}
+@keyframes pop{0%{transform:scale(.97);opacity:.7}100%{transform:scale(1);opacity:1}}
 .tipbox{border-radius:var(--r);padding:.5rem .9rem;font-size:12px;line-height:1.55;margin-bottom:.75rem;border:0.5px solid var(--brt);background:var(--bg2);color:var(--tx2);display:none;font-style:italic}
 .tipbox.show{display:block}
-
-/* graph */
 canvas{width:100%;height:88px;display:block;border-radius:var(--r);background:var(--bg2);margin-bottom:.75rem}
-
-/* countdown ring */
-.evcoming{display:none;align-items:center;gap:8px;font-size:12px;color:var(--txw);background:var(--bgw);border:0.5px solid var(--brw);border-radius:var(--r);padding:.4rem .75rem;margin-bottom:.5rem}
-.evcoming.show{display:flex}
-
-/* actions */
 .sec-label{font-size:11px;color:var(--tx2);font-weight:500;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em}
 .agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:7px;margin-bottom:.75rem}
 .abtn{padding:.55rem .7rem;border:0.5px solid var(--brs);border-radius:var(--r);background:var(--bg);cursor:pointer;font-size:12px;font-family:var(--f);color:var(--tx);text-align:left;line-height:1.35;transition:background .12s,transform .1s}
@@ -97,28 +74,24 @@ canvas{width:100%;height:88px;display:block;border-radius:var(--r);background:va
 .abtn:disabled{opacity:.35;cursor:not-allowed}
 .abtn .an{font-weight:500;display:block;margin-bottom:1px}
 .abtn .ae{font-size:10px;color:var(--tx2)}
-.abtn.urgent{border-color:var(--brd);background:var(--bgd)}
+.abtn.urgent{border-color:var(--brd)!important;background:var(--bgd)!important}
 .abtn.urgent .an{color:var(--txd)}
-
-/* log */
 .logwrap{border:0.5px solid var(--brt);border-radius:var(--r);overflow:hidden}
 .loghdr{padding:.35rem .75rem;background:var(--bg2);font-size:11px;color:var(--tx2);font-weight:500;display:flex;justify-content:space-between}
-.loglist{max-height:180px;overflow-y:auto}
-.li{padding:.3rem .75rem;font-size:12px;border-top:0.5px solid var(--brt);display:flex;gap:7px;align-items:baseline;line-height:1.45}
-.li .lt{color:var(--tx3);min-width:38px;font-size:10px;flex-shrink:0}
-.li .lm{color:var(--tx2)}
+.loglist{max-height:190px;overflow-y:auto}
+.li{padding:.3rem .75rem;font-size:12px;border-top:0.5px solid var(--brt);display:flex;gap:7px;line-height:1.45}
+.li .lt{color:var(--tx3);min-width:42px;font-size:10px;flex-shrink:0;padding-top:1px}
+.li .lm{color:var(--tx2);flex:1}
 .li.ok .lm{color:var(--txs)}
 .li.warn .lm{color:var(--txw)}
 .li.danger .lm{color:var(--txd)}
 .li.event .lm{color:var(--txp);font-weight:500}
-
-/* day dots */
+.li.meal .lm{color:var(--txi)}
+.li.exercise .lm{color:var(--txs);font-weight:500}
 .ddots{display:flex;gap:5px;margin-bottom:.75rem}
 .dd{width:26px;height:26px;border-radius:50%;border:0.5px solid var(--brt);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--tx3)}
 .dd.done{background:var(--bgs);color:var(--txs);border-color:var(--brc)}
 .dd.today{background:var(--bgi);color:var(--txi);border-color:var(--bri)}
-
-/* end screens */
 .endscreen{text-align:center;padding:1.5rem .5rem}
 .endtitle{font-size:22px;font-weight:500;margin-bottom:.4rem}
 .endsub{font-size:13px;color:var(--tx2);max-width:480px;margin:.4rem auto 1rem;line-height:1.65}
@@ -131,24 +104,33 @@ canvas{width:100%;height:88px;display:block;border-radius:var(--r);background:va
 .btn.pri{background:var(--bgi);color:var(--txi);border-color:var(--bri)}
 .btn.pri:hover{opacity:.85;background:var(--bgi)}
 .hidden{display:none!important}
-
-/* score flash */
-.scoreflash{position:absolute;font-size:18px;font-weight:500;pointer-events:none;animation:floatup 1s ease forwards}
-@keyframes floatup{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-30px)}}
+/* info modal */
+.modal-bg{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);display:flex;align-items:flex-start;justify-content:center;padding-top:60px;z-index:10}
+.modal{background:var(--bg);border:0.5px solid var(--brt);border-radius:var(--rl);padding:1.25rem;max-width:400px;width:calc(100% - 2rem);position:relative}
+.modal h3{font-size:15px;font-weight:500;margin-bottom:.4rem}
+.modal p{font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:.5rem}
+.modal p:last-of-type{margin-bottom:1rem}
+.modal .when{font-size:12px;background:var(--bg2);border-radius:var(--r);padding:.4rem .75rem;color:var(--tx2);margin-bottom:1rem}
+.modal .close-btn{padding:7px 18px;border:0.5px solid var(--brs);border-radius:var(--r);background:var(--bg);cursor:pointer;font-size:13px;font-family:var(--f);color:var(--tx)}
+.modal .close-btn:hover{background:var(--bg2)}
+.abtn-row{display:flex;align-items:stretch;gap:4px}
+.abtn-row .abtn{flex:1}
+.info-btn{padding:0 8px;border:0.5px solid var(--brs);border-radius:var(--r);background:var(--bg);cursor:pointer;font-size:13px;color:var(--tx2);transition:background .12s;flex-shrink:0;display:flex;align-items:center}
+.info-btn:hover{background:var(--bg2);color:var(--tx)}
 </style>
 </head>
 <body>
 <div id="wrap">
 <div class="card">
   <h1 style="font-size:18px;font-weight:500;margin-bottom:2px">Keep Alex Alive 💀</h1>
-  <p style="font-size:12px;color:var(--tx2);margin-bottom:.75rem">Alex is 16, has Type 1 diabetes, and zero chill. Life will not stop throwing things at him. You manage his glucose. 7 days. Don't die.</p>
+  <p style="font-size:12px;color:var(--tx2);margin-bottom:.75rem">Alex is 16, has Type 1 diabetes, and life does not pause. He eats three meals a day, goes to the gym, and does normal teenage stuff — and every single thing affects his glucose. Keep him alive for 7 days.</p>
 
   <div id="main-game">
     <div class="topbar">
-      <span class="badge bi" id="b-day">Day 1</span>
-      <span class="badge bw" id="b-time">8:00 AM</span>
-      <span class="badge bn" id="b-score">Score: 0</span>
-      <span class="badge bn" id="b-tir">In range: —</span>
+      <span class="badge bi"  id="b-day">Day 1</span>
+      <span class="badge bw"  id="b-time">8:00 AM</span>
+      <span class="badge bn"  id="b-score">Score: 0</span>
+      <span class="badge bn"  id="b-tir">In range: —</span>
       <span class="badge bd hidden" id="b-crisis">⚠ CRISIS</span>
     </div>
 
@@ -184,14 +166,13 @@ canvas{width:100%;height:88px;display:block;border-radius:var(--r);background:va
     </div>
 
     <div class="chips">
-      <span class="chip ok" id="c-g">Normal</span>
-      <span class="chip" id="c-iob">No insulin</span>
-      <span class="chip" id="c-cob">Fasting</span>
-      <span class="chip" id="c-eob">Sedentary</span>
-      <span class="chip" id="c-mod">Normal day</span>
+      <span class="chip ok"  id="c-g">Normal</span>
+      <span class="chip"     id="c-iob">No insulin</span>
+      <span class="chip"     id="c-cob">Fasting</span>
+      <span class="chip"     id="c-eob">Sedentary</span>
+      <span class="chip"     id="c-mod">Normal day</span>
     </div>
 
-    <div class="evcoming" id="evcoming">⚡ Something's about to happen to Alex...</div>
     <div class="evbanner" id="evbanner"></div>
     <div class="tipbox"   id="tipbox"></div>
     <div class="alertbox ok" id="alertbox">Alex is good. Glucose in range.</div>
@@ -203,8 +184,8 @@ canvas{width:100%;height:88px;display:block;border-radius:var(--r);background:va
 
     <div class="logwrap">
       <div class="loghdr">
-        <span>What's been happening to Alex</span>
-        <span id="log-count" style="color:var(--tx3)">0 events</span>
+        <span>Alex's day</span>
+        <span id="log-count" style="color:var(--tx3)"></span>
       </div>
       <div class="loglist" id="loglist"></div>
     </div>
@@ -213,9 +194,9 @@ canvas{width:100%;height:88px;display:block;border-radius:var(--r);background:va
   <div id="screen-gameover" class="hidden">
     <div class="endscreen">
       <div style="font-size:48px;margin-bottom:.5rem">💀</div>
-      <div class="endtitle" id="go-title">Alex is dead</div>
-      <div class="endsub" id="go-sub"></div>
-      <div class="factbox" id="go-fact"></div>
+      <div class="endtitle" id="go-title">Alex didn't make it</div>
+      <div class="endsub"   id="go-sub"></div>
+      <div class="factbox"  id="go-fact"></div>
       <p class="finalmeta">Score: <strong id="go-score">0</strong> · Days: <strong id="go-days">0</strong> · In range: <strong id="go-tir">0%</strong></p>
       <button class="btn pri" onclick="initGame()">Try again</button>
     </div>
@@ -230,13 +211,26 @@ canvas{width:100%;height:88px;display:block;border-radius:var(--r);background:va
     </div>
   </div>
 </div>
+
+<!-- Action info modal -->
+<div id="info-modal-bg" class="modal-bg hidden" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h3 id="modal-title"></h3>
+    <p id="modal-what"></p>
+    <p id="modal-how"></p>
+    <div class="when" id="modal-when"></div>
+    <button class="close-btn" onclick="closeInfoModal()">Got it</button>
+  </div>
+</div>
 </div>
 
 <script>
 (function(){
 'use strict';
 
-/* ── STATE ── */
+/* ─────────────────────────────────────────────
+   STATE
+───────────────────────────────────────────── */
 var G=5.4, PG=5.4;
 var DAY=1, HOUR=8, MIN=0;
 var SCORE=0, ALIVE=true;
@@ -247,259 +241,342 @@ var TOTAL_TK=0, INRANGE_TK=0;
 var CDS={};
 var SICK=false, STRESSED=false, HORMONES=false, HOT=false, ILL_DAYS=0;
 var SLEEP_Q=1.0;
-var EVENT_LOG_COUNT=0;
+var EV_COUNT=0;
 
-/* ── EVENTS: fires every N ticks, guaranteed ── */
-/* Each event: {msg, effect(), tip, type, minHour, maxHour, weight} */
-/* weight = relative frequency. Higher = fires more often */
-var ALL_EVENTS = [
-  /* ── FOOD (raises glucose) ── */
-  {w:8, h:[7,9],  type:'warn',
-   msg:'Alex woke up late and grabbed a chocolate Weetabix bar on the way out. "It\'s basically breakfast."',
-   tip:'Chocolate-coated cereal bars have ~30g carbs and spike glucose fast. Alex needs to bolus.',
-   fx:function(){G+=2.8;COB+=6;}},
+/*
+  SCHEDULE ENGINE
+  ───────────────
+  Each game tick = 30 min of game time (clock advances by 30 min).
+  We build a list of SCHEDULED events for the day at midnight, each
+  with an exact HOUR and MINUTE when they fire.  When the clock
+  reaches that time, the event fires — guaranteed, no probability gate.
 
-  {w:7, h:[8,9],  type:'warn',
-   msg:'Mum made a massive fry-up. Alex ate two sausages, beans, toast and a glass of OJ. Didn\'t count the carbs.',
-   tip:'Orange juice alone can be 25g of pure sugar. A full fry-up is 60–80g carbs. This will spike hard.',
-   fx:function(){G+=4.5;COB+=14;}},
+  DAILY FIXED SLOTS  (built every new day):
+    Breakfast  07:00–08:30  (one of several variants)
+    Lunch      12:00–13:00
+    Dinner     17:30–19:00
+    Workout    varies by day (gym / PE / run / swim / rest)
+    1–2 random contextual extras spread through the day
 
-  {w:9, h:[10,11], type:'warn',
-   msg:'Vending machine hit between lessons. Kit Kat, Walkers, and a Fanta. Classic.',
-   tip:'That combo is ~60g sugar. Simple carbs from fizzy drinks absorb in minutes.',
-   fx:function(){G+=3.8;COB+=8;}},
+  CONTEXTUAL EXTRAS are chosen from pools that only contain
+  events appropriate for that time-of-day window.
+*/
 
-  {w:8, h:[12,13], type:'warn',
-   msg:'School canteen: chips, a cheese burger, and a Tropicana. Alex skipped the salad obviously.',
-   tip:'Fast food = high carb, high fat. Fat slows absorption so there will be a second glucose rise 2–3 hours later.',
-   fx:function(){G+=4.0;COB+=12; setTimeout(function(){G+=2.0;addLog('The fat from lunch is causing a delayed glucose rise.','warn');},12000);}},
+var SCHEDULE = [];   // [{hour, min, ev}]  sorted ascending
 
-  {w:7, h:[13,14], type:'warn',
-   msg:'Alex\'s mate brought in homemade Rice Krispie treats. Alex had three. They were incredible.',
-   tip:'Rice Krispie treats are pure glucose — cereal + golden syrup. Absorbed almost instantly.',
-   fx:function(){G+=4.2;COB+=9;}},
-
-  {w:6, h:[15,16], type:'warn',
-   msg:'After school McDonald\'s. McFlurry, large fries, Big Mac. The gang all went.',
-   tip:'A McFlurry alone is 60g sugar. With fries and a burger that\'s 100g+ carbs in one sitting.',
-   fx:function(){G+=5.5;COB+=15; setTimeout(function(){G+=2.2;addLog('Delayed spike from the McDonald\'s fat — still going up.','warn');},14000);}},
-
-  {w:8, h:[16,17], type:'warn',
-   msg:'Gaming snack session: Haribo, Pringles and a full-fat Coke. Two hours of Call of Duty.',
-   tip:'Haribo is essentially pure glucose. 200g bag = 170g carbs. Pringles add fat for a prolonged rise.',
-   fx:function(){G+=4.8;COB+=11;}},
-
-  {w:7, h:[19,21], type:'warn',
-   msg:'Domino\'s pizza night. Alex ate four slices of pepperoni and some garlic bread.',
-   tip:'Pizza causes a double spike — carbs first, then fat delays a second rise 3–5 hours later. One of the hardest foods to dose for.',
-   fx:function(){G+=4.0;COB+=13; setTimeout(function(){G+=2.5;addLog('Second spike from pizza fat arriving — still rising.','warn');},16000);}},
-
-  {w:5, h:[20,22], type:'warn',
-   msg:'Late night cereal. Alex had TWO massive bowls of Coco Pops with full-fat milk at 10pm.',
-   tip:'Eating right before sleep is dangerous. Glucose will rise while you\'re asleep and can\'t be monitored easily.',
-   fx:function(){G+=4.5;COB+=12;}},
-
-  {w:4, h:[14,16], type:'event',
-   msg:'Someone\'s birthday in form time. Cake, more cake, party rings and a Capri-Sun. Alex lost count.',
-   tip:'Party food is almost impossible to carb-count accurately. Capri-Sun alone is 17g sugar in one small pouch.',
-   fx:function(){G+=5.0;COB+=13;}},
-
-  {w:4, h:[19,21], type:'event',
-   msg:'Alex went to the cinema. Large popcorn, Pic\'n\'Mix, and a massive Sprite. Great film though.',
-   tip:'Cinema food is catastrophic for glucose. A large Sprite is ~60g sugar, popcorn ~90g carbs. Dark = hard to check CGM.',
-   fx:function(){G+=5.5;COB+=16;}},
-
-  {w:3, h:[18,20], type:'event',
-   msg:'BBQ at a mate\'s house. Burgers, hot dogs, garlic bread, and three Magnums.',
-   tip:'BBQ eating is spread over hours — portion sizes hard to estimate. Magnums have a fat-delayed spike. Plan for 2–3 hours of rising glucose.',
-   fx:function(){G+=5.0;COB+=14; setTimeout(function(){G+=1.8;addLog('Ice cream fat from the BBQ causing a delayed rise.','warn');},14000);}},
-
-  {w:4, h:[10,11,14,15], type:'warn',
-   msg:'Alex forgot his packed lunch so bought a Meal Deal: sandwich, crisps, and a SunnyD.',
-   tip:'A Meal Deal can be 80–100g carbs depending on the sandwich. SunnyD is basically flavoured sugar water.',
-   fx:function(){G+=4.2;COB+=11;}},
-
-  /* ── EXERCISE (lowers glucose) ── */
-  {w:7, h:[15,16], type:'ok',
-   msg:'PE lesson. 40 minutes of football. Alex actually tried for once.',
-   tip:'Aerobic exercise drops glucose rapidly. Alex should have had a pre-exercise snack if below 7.0.',
-   fx:function(){G-=3.5;EOB+=9;}},
-
-  {w:5, h:[16,17], type:'ok',
-   msg:'Alex cycled home from school instead of getting the bus. 25 minutes of solid riding.',
-   tip:'Cycling is great aerobic exercise. Glucose drops during and for 2 hours after. Risk of delayed hypo at night.',
-   fx:function(){G-=2.5;EOB+=7;}},
-
-  {w:4, h:[17,19], type:'ok',
-   msg:'Alex went for a run with his dad — 5k. He moaned the entire way but finished.',
-   tip:'Running drops glucose fast. Post-exercise insulin sensitivity stays elevated for up to 24 hours.',
-   fx:function(){G-=3.8;EOB+=10;}},
-
-  {w:5, h:[11,12], type:'ok',
-   msg:'School cross-country run. Alex genuinely sprinted. Competitive when it counts.',
-   tip:'High-intensity sprinting can initially raise glucose (adrenaline) then drop it steeply. Unpredictable.',
-   fx:function(){G-=4.0;EOB+=11;}},
-
-  /* ── STRESS / HORMONES ── */
-  {w:7, h:[9,10,13,14], type:'warn',
-   msg:'Big maths test today. Alex panicked the night before and his adrenaline is through the roof.',
-   tip:'Cortisol and adrenaline trigger glycogenolysis — the liver dumps glucose. A stressed student\'s glucose can rise 3–4 mmol/L with zero food.',
-   fx:function(){G+=3.0;STRESSED=true;}},
-
-  {w:5, h:[9,14], type:'warn',
-   msg:'Got called to the head of year\'s office. Doesn\'t know why. Absolutely bricking it.',
-   tip:'Anxiety causes the exact same hormonal response as physical danger. Blood glucose spikes in proportion to how scared Alex is.',
-   fx:function(){G+=2.5;STRESSED=true;}},
-
-  {w:4, h:[12,15], type:'warn',
-   msg:'Had a massive argument with his best mate at lunch. Really upset. Storm-stomped off.',
-   tip:'Emotional stress raises glucose just as effectively as physical stress. Mental health and diabetes are deeply connected.',
-   fx:function(){G+=2.2;STRESSED=true;}},
-
-  {w:4, h:[14,16], type:'warn',
-   msg:'Got humiliated in front of the class answering a question wrong. Face still burning.',
-   tip:'Embarrassment triggers adrenaline. For someone with Type 1, even small emotional spikes can push glucose out of range.',
-   fx:function(){G+=1.8;STRESSED=true;}},
-
-  /* ── SLEEP / DAWN ── */
-  {w:8, h:[6,7], type:'warn',
-   msg:'Dawn phenomenon kicking in — growth hormone and cortisol are pushing Alex\'s glucose up before he even wakes.',
-   tip:'The dawn phenomenon occurs naturally in everyone but is much more pronounced in Type 1 diabetes. Many people need their basal insulin rate increased 3–7am.',
-   fx:function(){G+=2.2;}},
-
-  {w:5, h:[7], type:'warn',
-   msg:'Alex was up until 1am gaming. Slept 5 hours. Looks like death warmed up.',
-   tip:'Sleep deprivation raises cortisol and growth hormone — both raise glucose and reduce insulin sensitivity. Tired days always mean trickier glucose control.',
-   fx:function(){SLEEP_Q=0.55;G+=2.0;}},
-
-  {w:4, h:[3,4], type:'danger',
-   msg:'3:17am: CGM alarm going off. Alex stumbles out of bed, shaking. Glucose dropped while sleeping.',
-   tip:'Nocturnal hypoglycaemia is one of the most dangerous aspects of Type 1. Closed-loop insulin pumps detect drops and suspend basal insulin automatically.',
-   fx:function(){G-=2.2;}},
-
-  /* ── ILLNESS ── */
-  {w:4, h:[7,8], type:'danger',
-   msg:'Alex woke up with a horrible cold — blocked nose, sore throat, proper grotty.',
-   tip:'Illness raises glucose via stress hormones even when Alex isn\'t eating. Sick day rules: never skip insulin. May need 20–30% more than usual.',
-   fx:function(){SICK=true;ILL_DAYS=3;G+=2.5;}},
-
-  {w:3, h:[7,8], type:'warn',
-   msg:'Alex has a stomach bug. He\'s been sick twice and doesn\'t want to eat anything.',
-   tip:'Vomiting with Type 1 is an emergency scenario — he\'s losing glucose but still has insulin on board. Sipping Lucozade and calling the diabetes nurse is essential.',
-   fx:function(){SICK=true;ILL_DAYS=2;G-=1.5;COB=0;}},
-
-  /* ── ALCOHOL / SOCIAL ── */
-  {w:4, h:[20,21,22], type:'event',
-   msg:'Alex snuck out to a party. Had two cans of Strongbow and a shot. Mum doesn\'t know.',
-   tip:'Alcohol spikes glucose initially (from carbs in beer/cider) then blocks the liver from releasing glucose — causing a dangerous delayed hypo 6–12 hours later, often while asleep.',
-   fx:function(){G+=1.8;setTimeout(function(){G-=3.2;addLog('Alcohol is now blocking the liver — dangerous delayed hypo kicking in.','danger');},18000);}},
-
-  /* ── HEAT / COLD ── */
-  {w:4, h:[11,12,13,14], type:'warn',
-   msg:'Scorching hot day. Alex has been outside at lunch with no shade. Sweating loads.',
-   tip:'Heat increases blood flow to the skin and dramatically speeds up insulin absorption from injection sites. Insulin already injected acts faster than expected.',
-   fx:function(){HOT=true;G-=1.5;}},
-
-  {w:4, h:[8,9,16,17], type:'warn',
-   msg:'Freezing cold walk to school. Alex forgot his coat and is absolutely frozen.',
-   tip:'Cold triggers a stress response (vasoconstriction, adrenaline) that raises blood glucose. Also slows insulin absorption from injection sites.',
-   fx:function(){G+=1.5;}},
-
-  /* ── INSULIN ERRORS ── */
-  {w:6, h:[12,13,18,19], type:'danger',
-   msg:'Alex forgot to inject before lunch. Remembered 40 minutes after eating. Classic.',
-   tip:'Late bolusing means glucose spikes before insulin acts. A late injection is still better than none — but the spike has already happened.',
-   fx:function(){G+=4.0;}},
-
-  {w:4, h:[11,17], type:'danger',
-   msg:'Alex\'s injection site has hardened scar tissue — he always uses the same spot on his tummy.',
-   tip:'Lipohypertrophy (fatty lumps from overused injection sites) causes erratic, unpredictable insulin absorption. Always rotate sites across abdomen, thighs, upper arms, and buttocks.',
-   fx:function(){IOB=Math.max(0,IOB-1.0);G+=2.8;}},
-
-  {w:3, h:[22,23], type:'danger',
-   msg:'Alex accidentally double-dosed — took his evening insulin twice. Didn\'t realise.',
-   tip:'Insulin stacking (taking doses too close together or accidentally doubling) is a serious cause of severe hypoglycaemia. Insulin pens with memory can help prevent this.',
-   fx:function(){IOB+=3.5;IOB_PEAK=3.5;}},
-
-  /* ── SPORT/HOBBY ── */
-  {w:5, h:[15,16,17], type:'ok',
-   msg:'Alex plays for his school football team — 90 minute match, end-to-end stuff.',
-   tip:'A full match burns significant glucose. Post-exercise insulin sensitivity stays elevated for up to 24 hours — risk of hypo that night.',
-   fx:function(){G-=4.5;EOB+=12;}},
-
-  {w:4, h:[16,17,18], type:'event',
-   msg:'Swimming lesson at the leisure centre. Alex swam 40 lengths.',
-   tip:'Swimming is continuous aerobic exercise. It drops glucose steadily. Chlorine makes CGM sensor readings less reliable.',
-   fx:function(){G-=3.0;EOB+=8;}},
-
-  /* ── RANDOM CHAOS ── */
-  {w:3, h:[10,11,14,15,20,21], type:'event',
-   msg:'Alex accidentally sat on his insulin pen and snapped the needle. Had to use a dodgy backup.',
-   tip:'Equipment failures are a real risk for people with Type 1. Always carry a spare pen, needles and a backup glucose meter.',
-   fx:function(){IOB=Math.max(0,IOB*0.5);G+=2.0;}},
-
-  {w:3, h:[12,18], type:'event',
-   msg:'Alex left his glucose meter at home. He has no idea what his blood sugar actually is right now.',
-   tip:'People with Type 1 can use symptoms (shakiness, headache, thirst) to estimate glucose range, but this is inaccurate. CGMs have largely replaced finger-prick testing.',
-   fx:function(){/* Just narrative, slight unease */G+=(Math.random()-0.4)*1.5;}},
-
-  {w:4, h:[15,16,19,20], type:'event',
-   msg:'Energy drink before gaming — Alex downed a full 500ml Monster. "It\'s basically water."',
-   tip:'A 500ml Monster has 55g sugar and 160mg caffeine. Caffeine also raises glucose by triggering adrenaline. Lethal combo.',
-   fx:function(){G+=4.5;COB+=10;}},
-
-  {w:3, h:[7,8], type:'event',
-   msg:'Alex checked his CGM and it\'s showing a sensor error — ??? on the screen. No idea what his glucose is.',
-   tip:'CGM sensors occasionally fail or need recalibration. People with Type 1 should always have a backup finger-prick meter for sensor failures.',
-   fx:function(){/* Anxiety effect */G+=(Math.random()-0.3)*1.2;}},
-
-  {w:5, h:[16,17,20,21], type:'warn',
-   msg:'Long gaming session — Alex sat absolutely motionless for 3 hours playing Fortnite. Barely moved.',
-   tip:'Prolonged inactivity reduces glucose uptake by muscles. Insulin sensitivity decreases the longer you sit still.',
-   fx:function(){G+=1.5;}},
-
-  {w:3, h:[12,13], type:'event',
-   msg:'Lunch was cancelled — fire drill went on for 45 minutes. Alex is starving and insulin is still on board.',
-   tip:'Delayed eating with active insulin on board is a recipe for hypoglycaemia. Alex needs a snack ASAP.',
-   fx:function(){G-=2.0;}},
-
-  {w:4, h:[9,10,14], type:'warn',
-   msg:'Alex had a "protein shake" from the gym — the big one with oat milk and banana. Very healthy. Very spikey.',
-   tip:'Many protein shakes with added fruit or oat milk contain 40–60g carbs. "Healthy" doesn\'t mean low-carb.',
-   fx:function(){G+=3.5;COB+=8;}},
-
-  {w:3, h:[19,20,21], type:'event',
-   msg:'Alex went bowling with his family. Had garlic bread, a burger, and three Cokes over the evening.',
-   tip:'Social outings are tough for diabetes management — hard to check CGM without being embarrassed, awkward to inject at the table, difficult to count restaurant portions.',
-   fx:function(){G+=5.0;COB+=13;}},
-
-  {w:3, h:[10,14], type:'event',
-   msg:'Alex\'s teacher noticed him checking his phone (CGM app) and confiscated it for the rest of the lesson.',
-   tip:'CGM phones being confiscated is a real issue for young people with Type 1. Schools should have a 504 plan or equivalent allowing medical device use.',
-   fx:function(){G+=(Math.random()-0.3)*2.0;}},
+/* ─── MEAL VARIANTS ─── */
+var BREAKFASTS = [
+  {msg:"Breakfast: Mum made porridge with a banana. Solid start. 🥣",
+   tip:"Porridge is medium-GI but the banana adds ~25g fast carbs. Total ~55g carbs. Alex needs to bolus before eating.",
+   type:'meal', fx:function(){G+=2.8;COB+=11;}},
+  {msg:"Breakfast: Two slices of toast with peanut butter and a glass of OJ. ☕",
+   tip:"Toast = ~30g carbs, OJ = ~25g pure sugar. Orange juice spikes glucose very fast — liquid carbs absorb faster than solid food.",
+   type:'meal', fx:function(){G+=3.5;COB+=12;}},
+  {msg:"Breakfast: Big bowl of Coco Pops with full-fat milk. 🥛",
+   tip:"Coco Pops are extremely high GI — almost pure refined starch and sugar. Glucose will spike fast and hard. Should pre-bolus.",
+   type:'meal', fx:function(){G+=3.8;COB+=13;}},
+  {msg:"Breakfast: Scrambled eggs on wholegrain toast. Skipped the juice — sensible. 🍳",
+   tip:"Eggs have almost zero carbs. Wholegrain toast = ~15g carbs and is lower GI than white bread. A great breakfast for stable glucose — much easier to dose for accurately.",
+   type:'meal', fx:function(){G+=1.5;COB+=5;}},
+  {msg:"Breakfast: Greek yoghurt with berries and a drizzle of honey. Mum's on a health kick. 🫐",
+   tip:"Greek yoghurt is low-GI and high in protein. Berries are relatively low-sugar fruit. The honey adds ~10g fast carbs. Total ~25g carbs — gentle, predictable rise.",
+   type:'meal', fx:function(){G+=1.8;COB+=6;}},
+  {msg:"Breakfast: Overnight oats with chia seeds and some chopped almonds. Alex actually quite liked it. 🌾",
+   tip:"Oats soaked overnight become lower-GI than cooked oats. Chia seeds and almonds add fat and protein that slow glucose absorption further. A well-balanced diabetes-friendly breakfast.",
+   type:'meal', fx:function(){G+=2.0;COB+=7;}},
+  {msg:"Breakfast: Two boiled eggs and some avocado on one slice of seeded bread. Very TikTok. 🥑",
+   tip:"Avocado and eggs have very few carbs. One slice of seeded bread = ~12g carbs. Fat and protein slow any glucose rise significantly. This is one of the most stable breakfasts for Type 1.",
+   type:'meal', fx:function(){G+=1.2;COB+=4;}},
+  {msg:"Breakfast: Grabbed a cereal bar and a Ribena on the way out. Running late. 🏃",
+   tip:"A cereal bar is ~25g carbs and Ribena is ~20g sugar. Eating on the run means Alex probably forgot to bolus in advance.",
+   type:'meal', fx:function(){G+=3.2;COB+=10;}},
+  {msg:"Breakfast: Mum's special — full English. Sausages, beans, egg, toast, two mugs of tea. 🍳",
+   tip:"A full English is 50–70g carbs (mostly beans and toast). Fat from sausages delays absorption — expect a slower but prolonged rise.",
+   type:'meal', fx:function(){G+=3.0;COB+=13; setTimeout(function(){G+=1.2;addLog("Fat from the fry-up is causing a delayed rise.","warn");},14000);}},
+  {msg:"⚠️ Alex skipped breakfast — said he wasn't hungry. Insulin still active from last night.",
+   tip:"Skipping breakfast with basal insulin on board risks a morning hypo. The brain needs glucose to function — skipping meals is dangerous with Type 1.",
+   type:'warn', fx:function(){G-=0.8;}},
 ];
 
-/* ── EVENT QUEUE: guaranteed events every 3–5 ticks ── */
-var EV_QUEUE = [];
-var TICKS_TO_NEXT_EV = 3;
+var LUNCHES = [
+  {msg:"Lunch: School canteen — chips, a chicken burger, and a Tropicana. 🍟",
+   tip:"Chips are high-GI. Tropicana is ~35g sugar per 500ml. Fat in the burger will slow the carb peak slightly — still needs insulin.",
+   type:'meal', fx:function(){G+=3.5;COB+=12;}},
+  {msg:"Lunch: Packed lunch — ham sandwich, crisps, apple, and a Fruit Shoot. 🥪",
+   tip:"A decent packed lunch is around 60g carbs. Fruit Shoot has ~10g sugar. Fairly predictable to dose for.",
+   type:'meal', fx:function(){G+=3.0;COB+=10;}},
+  {msg:"Lunch: Meal Deal from Tesco — cheese sarnie, Walkers, and a full-fat Coke. 🥤",
+   tip:"A Meal Deal is typically 70–90g carbs. Full-fat Coke is 35g sugar in one can. Should have chosen the water.",
+   type:'meal', fx:function(){G+=4.0;COB+=13;}},
+  {msg:"Lunch: Jacket potato with beans and cheese from the canteen. 🥔",
+   tip:"Jacket potato is medium-GI but a large one = ~60g carbs. Beans add ~20g more. Cheese slows absorption slightly. Needs a good bolus.",
+   type:'meal', fx:function(){G+=3.2;COB+=11;}},
+  {msg:"Lunch: Sushi from the new place near school. Alex ordered way too many California rolls. 🍣",
+   tip:"White rice in sushi is extremely high-GI. A 'casual' sushi lunch can easily be 80–100g carbs. Pre-bolusing is essential.",
+   type:'meal', fx:function(){G+=4.2;COB+=13;}},
+  {msg:"Lunch: Chicken and rice bowl from the canteen salad bar. Alex surprised everyone. 🍗",
+   tip:"Grilled chicken is zero carbs. Brown rice is medium-GI. A chicken rice bowl = ~45g carbs — moderate, predictable, and much easier to bolus for than chips.",
+   type:'meal', fx:function(){G+=2.5;COB+=8;}},
+  {msg:"Lunch: Homemade lentil soup and a wholegrain roll. Mum packed it. 🍲",
+   tip:"Lentils are one of the best foods for blood glucose — very low GI, high in fibre and protein. Glucose rise is slow and flat. Excellent choice for Type 1.",
+   type:'meal', fx:function(){G+=1.8;COB+=7;}},
+  {msg:"Lunch: Tuna salad wrap with cucumber, peppers, and hummus. No crisps. 🌯",
+   tip:"A wholemeal wrap = ~35g carbs. Tuna and veg add protein and fibre to slow absorption. Hummus is low-GI. One of the more diabetes-friendly lunch options.",
+   type:'meal', fx:function(){G+=2.2;COB+=7;}},
+  {msg:"⚠️ Alex skipped lunch — forgot his money and the queue was too long.",
+   tip:"Missing a meal with background insulin active is a recipe for afternoon hypoglycaemia. He needs a snack at minimum.",
+   type:'warn', fx:function(){G-=1.0;}},
+];
 
-function pickEvent() {
-  /* Weight-based random selection */
-  var totalW = ALL_EVENTS.reduce(function(s,e){return s+e.w;},0);
-  var r = Math.random()*totalW;
-  var cum = 0;
-  for(var i=0;i<ALL_EVENTS.length;i++){
-    cum += ALL_EVENTS[i].w;
-    if(r<=cum) return ALL_EVENTS[i];
+var DINNERS = [
+  {msg:"Dinner: Spaghetti bolognese with garlic bread and a glass of Coke. 🍝",
+   tip:"Pasta + garlic bread = 80–100g carbs. Coke adds 35g sugar. This is a high-carb dinner that needs a substantial insulin dose.",
+   type:'meal', fx:function(){G+=4.0;COB+=13;}},
+  {msg:"Dinner: Roast chicken, roast potatoes, veg, and a Yorkshire pudding. 🍗",
+   tip:"Roast potatoes are high-GI. A full roast dinner = 60–80g carbs. Gravy often contains flour and hidden carbs.",
+   type:'meal', fx:function(){G+=3.5;COB+=12;}},
+  {msg:"Dinner: Domino's delivery night. Alex had four slices of pepperoni pizza. 🍕",
+   tip:"Pizza is famous for causing a 'double hump' spike — first from the dough carbs, then a second rise 3–5 hours later from the fat slowing gastric emptying.",
+   type:'meal', fx:function(){G+=3.2;COB+=12; setTimeout(function(){G+=2.0;addLog("Pizza fat causing delayed second glucose rise.","warn");},18000);}},
+  {msg:"Dinner: Takeaway curry — chicken tikka masala, two naans, pilau rice. 🍛",
+   tip:"Naan bread = ~50g carbs each. Pilau rice = ~70g. A curry takeaway can easily be 150g+ carbs. One of the hardest meals to dose for.",
+   type:'meal', fx:function(){G+=4.8;COB+=15;}},
+  {msg:"Dinner: Grilled salmon with sweet potato mash and steamed broccoli. Mum made a real effort. 🐟",
+   tip:"Salmon has zero carbs. Sweet potato is medium-GI (~25g carbs for a medium portion). Broccoli has minimal carbs. This is an excellent diabetes meal — predictable glucose rise, rich in omega-3.",
+   type:'meal', fx:function(){G+=1.8;COB+=6;}},
+  {msg:"Dinner: Chicken stir-fry with loads of veg and a small portion of brown rice. 🥢",
+   tip:"Brown rice is lower-GI than white rice. Lots of veg adds fibre that slows absorption. A well-balanced dinner — protein, healthy carbs, micronutrients. About 45g carbs total.",
+   type:'meal', fx:function(){G+=2.5;COB+=8;}},
+  {msg:"Dinner: Turkey mince chilli with kidney beans, peppers, and a small portion of rice. 🌶️",
+   tip:"Kidney beans are very low-GI and high in fibre — they actually slow the absorption of the rice. Lean turkey keeps fat low. This is one of the most glucose-stable dinners possible.",
+   type:'meal', fx:function(){G+=2.2;COB+=8;}},
+  {msg:"Dinner: Homemade veggie soup with a wholegrain roll and a side salad. 🥗",
+   tip:"Vegetable soup is low-GI, high in fibre, and very easy to dose for. A wholegrain roll = ~20g carbs. Salad is essentially zero carbs. Total ~25g carbs — excellent control.",
+   type:'meal', fx:function(){G+=1.5;COB+=5;}},
+  {msg:"Dinner: Stir-fry with noodles and sweet chilli sauce. Mum's trying new things. 🍜",
+   tip:"Noodles are moderate GI but a big portion = 70g carbs. Sweet chilli sauce is ~10g sugar per tablespoon and people use a lot of it.",
+   type:'meal', fx:function(){G+=3.5;COB+=11;}},
+  {msg:"Dinner: Homemade fish and chips. Mum made an effort. 🐟",
+   tip:"Chips are the main carb source (high-GI). Battered fish adds some carbs too. A generous portion = 70–80g carbs total.",
+   type:'meal', fx:function(){G+=3.8;COB+=12;}},
+  {msg:"⚠️ Alex ate dinner really late (9pm) — was out with mates. Didn't text home.",
+   tip:"Late eating with Type 1 is tricky. Glucose will rise while Alex sleeps and he can't react. Night-time highs cause poor sleep and wake up with fatigue.",
+   type:'warn', fx:function(){G+=3.5;COB+=11; setTimeout(function(){G+=1.5;addLog("Still digesting late dinner — glucose rising overnight.","warn");},16000);}},
+];
+
+/* ─── WORKOUTS (one per day, afternoon slot) ─── */
+var WORKOUTS = [
+  {msg:"🏋️ Gym session after school — chest and arms, 50 minutes. Alex put some effort in.",
+   tip:"Weight training initially raises glucose (adrenaline), then drops it steadily as muscles absorb glucose for recovery. Glucose can continue falling for 12–24 hours post-exercise.",
+   type:'exercise', fx:function(){G-=2.0;EOB+=9;}},
+  {msg:"🏃 5km run with his dad. Alex moaned the whole way but finished strong.",
+   tip:"Running drops glucose fast — aerobic exercise uses glucose directly. Post-run insulin sensitivity is elevated for hours. Risk of delayed hypo tonight.",
+   type:'exercise', fx:function(){G-=2.8;EOB+=10;}},
+  {msg:"⚽ 90-minute football match for the school team. End to end.",
+   tip:"Team sports cause large glucose drops during play but adrenaline can also spike it during intense moments. Hypo risk continues up to 24 hours after.",
+   type:'exercise', fx:function(){G-=3.0;EOB+=11;}},
+  {msg:"🏊 Swimming at the leisure centre — 30 lengths. Good session.",
+   tip:"Swimming is sustained aerobic exercise. CGM sensors are less accurate in chlorine and heat can speed up insulin absorption from the injection site.",
+   type:'exercise', fx:function(){G-=2.5;EOB+=9;}},
+  {msg:"🚴 45-minute bike ride with mates along the canal. Decent pace.",
+   tip:"Cycling drops glucose steadily. A long ride with active IOB is a real hypo risk. Alex should have had a snack beforehand if below 7.0.",
+   type:'exercise', fx:function(){G-=2.2;EOB+=8;}},
+  {msg:"🏸 Badminton with friends at the sports hall. Two hours of competitive games.",
+   tip:"Racquet sports are intermittent — short intense bursts with rest. Glucose tends to drop overall but with some spikes during intense rallies.",
+   type:'exercise', fx:function(){G-=2.0;EOB+=8;}},
+  {msg:"😴 Rest day — Alex skipped the gym. Spent the afternoon on the sofa gaming.",
+   tip:"Sedentary days reduce insulin sensitivity compared to active days. Alex may need slightly more insulin than usual.",
+   type:'event', fx:function(){G+=0.5;}},
+];
+
+/* ─── CONTEXTUAL RANDOM EXTRAS (time-gated) ─── */
+/* Each has a 'window' array of [startHour, endHour] it's valid for */
+var EXTRAS = [
+  /* MORNING (7–10) */
+  {w:[7,10], msg:"Morning: Dawn phenomenon hit hard. Glucose rising before Alex even got out of bed.",
+   tip:"The dawn phenomenon is caused by growth hormone and cortisol released in the early hours. It's one reason many people with Type 1 run high in the morning.",
+   type:'warn', fx:function(){G+=1.8;}},
+  {w:[7,10], msg:"Morning: Alex's CGM sensor threw an error overnight. Woke up not knowing his glucose. Scary.",
+   tip:"Sensor failures are a real risk. Always keep a backup finger-prick meter. Many people with Type 1 say waking up without a working sensor feels like driving blind.",
+   type:'warn', fx:function(){}},
+  {w:[7,10], msg:"Morning: Alex slept terribly — kept getting up to wee. High glucose causes polyuria all night.",
+   tip:"Polyuria (frequent urination) is a direct symptom of hyperglycaemia. Glucose draws water out of cells by osmosis, forcing the kidneys to produce more urine.",
+   type:'warn', fx:function(){SLEEP_Q=0.6;G+=1.5;}},
+  {w:[8,10], msg:"Morning: Alex forgot his injection pen at home. Had to get Mum to drop it at school.",
+   tip:"Forgetting equipment is a real everyday challenge. A missed morning insulin dose means glucose will rise unchecked all morning — a genuine emergency.",
+   type:'warn', fx:function(){G+=2.0;}},
+  {w:[8,10], msg:"Morning: Double espresso from the coffee cart outside school. He's 16 and living dangerously. ☕",
+   tip:"Caffeine stimulates adrenaline release, which raises blood glucose and reduces insulin sensitivity — especially on an empty stomach.",
+   type:'warn', fx:function(){G+=1.2;}},
+
+  /* SCHOOL DAY (9–15) */
+  {w:[9,12], msg:"School: Big maths exam this morning. Alex barely slept thinking about it. Stress levels sky high. 📝",
+   tip:"Cortisol and adrenaline both trigger glycogenolysis — the liver releases glucose even without food. A stressed Alex can see a 2–3 mmol/L rise with nothing to eat.",
+   type:'warn', fx:function(){G+=2.5;STRESSED=true;}},
+  {w:[9,15], msg:"School: Teacher confiscated Alex's phone (his CGM app is on it) for using it in class.",
+   tip:"This is a real issue for young people with Type 1. UK schools are required to allow medical devices. Alex is now unable to see his glucose readings.",
+   type:'warn', fx:function(){}},
+  {w:[10,12], msg:"Break time: Vending machine raid. Kit Kat, Walkers, and a Fanta. 'I'll bolus later.' 🍫",
+   tip:"Delaying the bolus means the glucose from the snack will peak before insulin starts working. The 'I'll do it later' habit is one of the most common causes of post-meal highs.",
+   type:'warn', fx:function(){G+=2.8;COB+=7;}},
+  {w:[11,14], msg:"School: Fire drill cancelled lunch. Alex is starving. Insulin is still ticking away. 🔔",
+   tip:"Delayed eating with active insulin on board (IOB) is dangerous — the insulin keeps lowering glucose but there's no food to counteract it.",
+   type:'warn', fx:function(){G-=1.5;}},
+  {w:[13,15], msg:"After lunch: Massive energy crash. Alex bought a Boost bar from the tesco at lunch. 🍫",
+   tip:"Chocolate bars cause a fast glucose spike — pure sugar and fat. The 'energy crash' Alex feels is actually hyperglycaemia followed by reactive fatigue.",
+   type:'warn', fx:function(){G+=2.5;COB+=6;}},
+
+  /* AFTERNOON / AFTER SCHOOL (15–18) */
+  {w:[15,18], msg:"After school: McDonald's run with the group. McFlurry, large fries. 'Just this once.' 🍟",
+   tip:"A McFlurry alone = 60g sugar. Large fries = 48g carbs. The fat delays absorption so glucose may keep rising 2–3 hours later.",
+   type:'warn', fx:function(){G+=3.8;COB+=12; setTimeout(function(){G+=1.5;addLog("Delayed fat spike from McDonald's still arriving.","warn");},16000);}},
+  {w:[15,18], msg:"After school: Energy drink to get through homework. 500ml Monster downed in one. ⚡",
+   tip:"A 500ml Monster contains 55g sugar and 160mg caffeine. Caffeine also raises glucose by stimulating adrenaline. A double-whammy spike.",
+   type:'warn', fx:function(){G+=3.5;COB+=9;}},
+  {w:[15,17], msg:"After school: Alex's injection site is lumpy and hard — been using the same spot for months.",
+   tip:"Lipohypertrophy (scar tissue at injection sites) causes unpredictable insulin absorption. Many unexplained highs are caused by this. Always rotate sites.",
+   type:'warn', fx:function(){IOB=Math.max(0,IOB-0.5);G+=2.0;}},
+  {w:[15,18], msg:"After school: Hanging round the corner shop. Alex ate a bag of Haribo and a Lucozade Sport. 🍬",
+   tip:"Haribo is essentially pure glucose. Lucozade Sport = 17g sugar per 500ml and is designed for athletes actively burning fuel — not for sitting on a wall.",
+   type:'warn', fx:function(){G+=3.2;COB+=9;}},
+
+  /* EVENING (18–22) */
+  {w:[18,21], msg:"Evening: Cinema with mates. Large salted popcorn and a massive Sprite. Good film. 🍿",
+   tip:"Cinema food: large Sprite = ~60g sugar, large popcorn = ~90g carbs. It's dark so Alex can't see his CGM. Two hours of unmonitored glucose.",
+   type:'event', fx:function(){G+=4.0;COB+=13;}},
+  {w:[19,22], msg:"Evening: Gaming for 3 hours straight. Haribo and Pringles on the desk. Didn't move. 🎮",
+   tip:"Sedentary gaming + high-GI snacking is very common in teenage boys with T1D. Zero insulin sensitivity improvement and constant glucose loading.",
+   type:'warn', fx:function(){G+=3.0;COB+=8;}},
+  {w:[20,22], msg:"Evening: Late-night cereal attack. Two huge bowls of Coco Pops before bed. 🌙",
+   tip:"Eating high-GI food right before sleep is very risky — glucose will rise while Alex is asleep and unable to respond.",
+   type:'warn', fx:function(){G+=3.5;COB+=11;}},
+  {w:[20,23], msg:"Evening: Alex snuck out to a house party. Had a couple of cans of cider. Mum doesn't know. 🍺",
+   tip:"Alcohol initially raises glucose (from carbs in cider) but then blocks the liver from releasing glucose — causing a dangerous delayed hypo 6–12 hours later, often during sleep.",
+   type:'event', fx:function(){G+=1.5; setTimeout(function(){G-=2.2;addLog("Alcohol blocking liver glucose release — delayed hypo risk.","danger");},22000);}},
+  {w:[19,22], msg:"Evening: Really stressful argument with parents about school. Alex stormed to his room. 😤",
+   tip:"Emotional stress raises glucose just as effectively as physical stress. Adrenaline and cortisol both cause the liver to release glucose — regardless of what Alex has eaten.",
+   type:'warn', fx:function(){G+=2.0;STRESSED=true;}},
+  {w:[21,23], msg:"Evening: Alex was up until midnight revising. Forgot his bedtime snack.",
+   tip:"People with Type 1 often eat a small bedtime snack to protect against overnight hypoglycaemia while basal insulin continues to act.",
+   type:'warn', fx:function(){G-=0.8;}},
+
+  /* NIGHT (0–6) */
+  {w:[2,5], msg:"3am: CGM alarm going off. Glucose dropped during sleep. Alex stumbles to the kitchen shaking. 😰",
+   tip:"Nocturnal hypoglycaemia is one of the most dangerous aspects of Type 1. Closed-loop insulin pumps (artificial pancreas systems) can automatically suspend insulin when glucose falls.",
+   type:'danger', fx:function(){G-=1.8;}},
+  {w:[5,8], msg:"Early morning: Dawn phenomenon — cortisol and growth hormone pushing glucose up. 📈",
+   tip:"The dawn phenomenon is a natural rise in blood glucose between 3–8am caused by hormonal surges. Most people with Type 1 need extra basal insulin during these hours.",
+   type:'warn', fx:function(){G+=1.8;}},
+];
+
+/* ─── ILLNESS (fires at 7am if unlucky) ─── */
+var ILLNESS_EVENTS = [
+  {msg:"Morning: Alex woke up with a proper cold — sore throat, headache, blocked nose. 🤒",
+   tip:"Illness raises glucose via stress hormones even when not eating. Sick day rules: never skip insulin when ill. May need 20–30% more insulin than usual.",
+   type:'danger', fx:function(){SICK=true;ILL_DAYS=3;G+=2.0;}},
+  {msg:"Morning: Alex has a stomach bug. Been sick twice. Doesn't want to eat anything. 🤢",
+   tip:"Vomiting with Type 1 is a medical emergency — insulin is still active but food (and therefore glucose) can't be kept down. Sip Lucozade and call the diabetes nurse urgently.",
+   type:'danger', fx:function(){SICK=true;ILL_DAYS=2;G-=1.2;COB=0;}},
+];
+
+/* ─── BUILD TODAY'S SCHEDULE ─── */
+function buildSchedule(){
+  SCHEDULE = [];
+
+  /* Fixed meal slots with ±30 min jitter */
+  var bfHour = 7 + (Math.random()<0.5 ? 0 : 1); // 7 or 8am
+  var luHour  = 12 + (Math.random()<0.5 ? 0 : 1);
+  var diHour  = 17 + Math.floor(Math.random()*2); // 17 or 18
+
+  var bf = BREAKFASTS[Math.floor(Math.random()*BREAKFASTS.length)];
+  var lu = LUNCHES   [Math.floor(Math.random()*LUNCHES.length)];
+  var di = DINNERS   [Math.floor(Math.random()*DINNERS.length)];
+
+  push(bfHour, 0,  bf);
+  push(luHour, 0,  lu);
+  push(diHour, 30, di);
+
+  /* One workout slot per day (15:30–17:00) */
+  var wk = WORKOUTS[Math.floor(Math.random()*WORKOUTS.length)];
+  push(15 + (Math.random()<0.5 ? 0 : 1), 30, wk);
+
+  /* Random illness — 15% chance, always morning */
+  if(Math.random()<0.15){
+    var ill = ILLNESS_EVENTS[Math.floor(Math.random()*ILLNESS_EVENTS.length)];
+    push(7, 0, ill);
   }
-  return ALL_EVENTS[0];
+
+  /* 2–3 contextual extras spread through the day */
+  var numExtras = 2 + (Math.random()<0.4 ? 1 : 0);
+  var windows = [[8,11],[11,15],[15,18],[18,22]];
+  var usedWin  = [];
+  for(var i=0;i<numExtras;i++){
+    /* Pick an unused time window */
+    var avail = windows.filter(function(_,idx){ return usedWin.indexOf(idx)===-1; });
+    if(!avail.length) break;
+    var win = avail[Math.floor(Math.random()*avail.length)];
+    usedWin.push(windows.indexOf(win));
+    var startH = win[0], endH = win[1];
+
+    /* Pick an extra valid for this window */
+    var pool = EXTRAS.filter(function(e){
+      return e.w[0]<=startH && e.w[1]>=startH;
+    });
+    if(!pool.length) pool = EXTRAS; // fallback
+    var ex = pool[Math.floor(Math.random()*pool.length)];
+    var h = startH + Math.floor(Math.random()*(endH-startH));
+    var m = Math.random()<0.5 ? 0 : 30;
+    /* Avoid clashing with meal slots */
+    if(h===bfHour||h===luHour||(h===diHour&&m>=30)) h = Math.min(h+1, endH-1);
+    push(h, m, ex);
+  }
+
+  /* Sort by time */
+  SCHEDULE.sort(function(a,b){
+    return (a.hour*60+a.min)-(b.hour*60+b.min);
+  });
 }
 
-function scheduleEvent() {
-  TICKS_TO_NEXT_EV = 3 + Math.floor(Math.random()*4); /* 3–6 ticks between events = ~6–12 game seconds */
+function push(hour, min, ev){
+  SCHEDULE.push({hour:hour, min:min, ev:ev, fired:false});
 }
 
-/* ── HELPERS ── */
+/* ─── FIRE EVENTS WHOSE TIME HAS COME ─── */
+function checkSchedule(){
+  var now = HOUR*60+MIN;
+  SCHEDULE.forEach(function(slot){
+    if(!slot.fired && (slot.hour*60+slot.min) <= now){
+      slot.fired = true;
+      fireEvent(slot.ev);
+    }
+  });
+}
+
+function fireEvent(ev){
+  ev.fx();
+  G = clamp(G, 1.0, 22.0);
+  EV_COUNT++;
+
+  var typeClass = ev.type==='danger'?'edanger':ev.type==='ok'||ev.type==='exercise'?'eok':ev.type==='meal'?'einfo':'';
+  var banner = document.getElementById('evbanner');
+  banner.className = 'evbanner show '+typeClass;
+  banner.textContent = ev.msg;
+
+  if(ev.tip){
+    var tb = document.getElementById('tipbox');
+    tb.textContent = '📚 '+ev.tip;
+    tb.classList.add('show');
+  }
+
+  addLog(ev.msg, ev.type||'event');
+
+  setTimeout(function(){
+    document.getElementById('evbanner').classList.remove('show');
+    document.getElementById('tipbox').classList.remove('show');
+  }, 9000);
+}
+
+/* ─── HELPERS ─── */
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 function tstr(){var h=HOUR%12||12,ap=HOUR<12||HOUR===0?'AM':'PM';return h+':'+(MIN<10?'0'+MIN:MIN)+' '+ap;}
 function gcol(v){
@@ -510,8 +587,7 @@ function gcol(v){
 
 function addLog(msg,type,t){
   LOG.unshift({t:t||tstr(),m:msg,type:type||''});
-  if(LOG.length>80)LOG.pop();
-  EVENT_LOG_COUNT++;
+  if(LOG.length>100)LOG.pop();
   renderLog();
 }
 
@@ -520,84 +596,150 @@ function renderLog(){
   el.innerHTML=LOG.map(function(l){
     return'<div class="li '+l.type+'"><span class="lt">'+l.t+'</span><span class="lm">'+l.m+'</span></div>';
   }).join('');
-  document.getElementById('log-count').textContent=EVENT_LOG_COUNT+' events';
+  document.getElementById('log-count').textContent=EV_COUNT+' events today';
 }
 
-/* ── ACTIONS ── */
-function getActions(){
-  var acts = [
-    {id:'fast',  name:'Fast insulin 💉',  desc:'–2.5 over 90 min',
-     fx:function(){IOB+=2.5;IOB_PEAK=2.5;return'Injected NovoRapid. Peaks in 60 min, gone in 3–4 hrs.';},
-     cd:3, when:function(){return G>6.5;}},
+/* ─── ACTIONS ─── */
+var ACTION_INFO = {
+  fast: {
+    title:'Fast-acting insulin (bolus)',
+    what:'A rapid-acting insulin like NovoRapid or Humalog. It starts working within 15 minutes, peaks at 60–90 minutes, and is mostly gone after 3–4 hours.',
+    how:'Used specifically to cover meals or to bring down a high blood glucose. Should ideally be injected 15–20 minutes before eating ("pre-bolusing") so it\'s already active when glucose starts rising.',
+    when:'Use when glucose is above 6.5 and you know a meal or snack is coming, or when you need to correct a post-meal spike. Do NOT stack with a recent dose — insulin already active (IOB) will compound.',
+  },
+  corr: {
+    title:'Correction dose',
+    what:'A smaller top-up injection of fast-acting insulin used purely to bring down an elevated glucose. It\'s the same type of insulin as a meal bolus but in a smaller amount.',
+    how:'Unlike a meal bolus, a correction dose is given when glucose is high with no food involved. The dose is calculated from how far above target glucose is and how sensitive the person is to insulin.',
+    when:'Use when glucose is clearly elevated (above 8.5) and there\'s no recent meal bolus still active. Always check IOB first — if fast insulin was given in the last 2 hours, it may still be working and a correction could cause a hypo.',
+  },
+  basal: {
+    title:'Reduce basal insulin rate',
+    what:'Basal insulin is the slow, background insulin that runs 24/7 to manage glucose between meals. It\'s either a long-acting injection (like Lantus or Levemir) or a pump\'s continuous background drip.',
+    how:'Reducing basal lowers the amount of insulin continuously working in the background. This raises glucose slowly rather than causing a sharp spike.',
+    when:'Use when glucose is drifting low without a meal (e.g. before exercise, or to prevent an overnight hypo). Not a quick fix — the effect is slow and lasts hours. This is also the reason Alex\'s glucose drops overnight even without eating.',
+  },
+  gel: {
+    title:'Glucose gel (emergency)',
+    what:'A thick sugary gel (like GlucoGel or Dextrogel) containing 15–25g of rapidly-absorbed glucose. Absorbed directly through the gum lining without needing to swallow.',
+    how:'Goes into the bloodstream within 5 minutes — much faster than eating food. Raises glucose by about 2–3 mmol/L quickly.',
+    when:'EMERGENCY USE ONLY for hypoglycaemia (below 4.5). Not for high glucose. Because it acts so fast, it can overcorrect if used when not genuinely needed. Real patients carry it at all times.',
+  },
+  juice: {
+    title:'Lucozade or sugary juice',
+    what:'A fast-acting sugary drink — Lucozade Original (glucose), orange juice, or similar. Contains ~15–30g of rapidly-absorbed sugar.',
+    how:'Liquid carbs absorb faster than solid food. Glucose rises within 10–15 minutes. More controllable than gel and easier to drink when feeling shaky.',
+    when:'Use for mild-to-moderate hypos (below 5.5). The "15g rule": give 15g fast carbs, wait 15 minutes, recheck. Repeat if still below 4.0. Do NOT use when glucose is normal or high.',
+  },
+  snack: {
+    title:'Small snack',
+    what:'A moderate-carb snack — banana, cereal bar, crackers, or similar. Around 15–25g carbohydrate that absorbs over 20–30 minutes.',
+    how:'Slower than juice or gel, which makes it better for preventing a hypo rather than treating one that\'s already happening. The combination of carbs + some fat/protein gives a more sustained glucose rise.',
+    when:'Use when glucose is low-normal (below 7.5) and you want to raise it gently — before exercise, before sleep, or if a meal is delayed. Not fast enough to treat an acute hypo.',
+  },
+  walk: {
+    title:'Light walk',
+    what:'20 minutes of gentle walking — the most accessible form of exercise for glucose management.',
+    how:'Aerobic exercise makes muscles absorb glucose directly without needing insulin. A brisk walk can lower glucose by 0.5–1.5 mmol/L and improves insulin sensitivity for hours afterwards.',
+    when:'Use when glucose is mildly elevated (above 8) and you don\'t want to give more insulin. Also great after meals to blunt a post-meal spike. Not safe if glucose is already below 5 — risk of hypo during exercise.',
+  },
+  check: {
+    title:'Check CGM / blood glucose',
+    what:'A continuous glucose monitor (CGM) like FreeStyle Libre or Dexcom reads glucose from a sensor under the skin every 1–5 minutes. Or Alex could do a traditional finger-prick blood test.',
+    how:'Shows current glucose, trend direction (rising/falling arrows), and rate of change. Crucially shows Insulin on Board (IOB) and Carbs on Board (COB) — essential for deciding whether to act.',
+    when:'Use any time you\'re unsure what\'s happening. Essential before exercise, before driving, before sleep, and whenever an event occurs. The arrow direction matters as much as the number — a reading of 7 with a ↓↓ arrow means you\'re heading into a hypo fast.',
+  },
+  nurse: {
+    title:'Ring the diabetes specialist nurse',
+    what:'A diabetes specialist nurse (DSN) or consultant is the expert support system for people with Type 1. They give personalised advice based on Alex\'s specific insulin doses and history.',
+    how:'In real life, people with Type 1 have a diabetes team they can contact for advice on adjusting doses, managing illness, or handling unusual situations. NHS diabetes helplines exist for exactly these moments.',
+    when:'Use when you\'re genuinely unsure what to do — the nurse will assess the full picture and give the most appropriate advice. In the game, this gives you a tailored recommendation based on Alex\'s current state.',
+  },
+  resite: {
+    title:'Rotate injection site',
+    what:'Insulin must be injected under the skin (subcutaneous). Common sites are the abdomen, outer thighs, upper arms, and buttocks. Using the same spot repeatedly causes lipohypertrophy — fatty scar tissue that disrupts absorption.',
+    how:'Moving to a healthy, un-scarred area of skin allows insulin to absorb at its intended speed. Scar tissue can slow absorption dramatically or cause random unpredictable spikes and hypos.',
+    when:'Use when insulin seems to be acting unpredictably — especially if getting unexpected highs despite dosing correctly. Should be done routinely every injection in real life, rotating around a mental "map" of sites.',
+  },
+};
 
-    {id:'corr',  name:'Correction dose',  desc:'–1.2 mmol/L',
-     fx:function(){IOB+=1.2;IOB_PEAK=1.2;return'Small correction. Watch for insulin stacking.';},
-     cd:4, when:function(){return G>8.5;}},
+function getActions(){return[
+  {id:'fast',  name:'Fast insulin 💉',    desc:'–2.5 mmol/L · 90 min',
+   fx:function(){IOB+=2.5;IOB_PEAK=2.5;return'Injected NovoRapid. Peaks at ~60 min, lasts 3–4 hrs. Pre-bolusing before meals is ideal.';},
+   cd:3, when:function(){return G>6.5;}},
+  {id:'corr',  name:'Correction dose',    desc:'–1.2 mmol/L · no food',
+   fx:function(){IOB+=1.2;IOB_PEAK=1.2;return'Small correction. Check IOB first — do not stack doses.';},
+   cd:4, when:function(){return G>8.5;}},
+  {id:'basal', name:'Reduce basal rate',  desc:'Lower background insulin',
+   fx:function(){IOB=Math.max(0,IOB-0.6);return'Reduced basal — good before exercise or to prevent overnight hypo.';},
+   cd:6, when:function(){return IOB>0.3||G<5.5;}},
+  {id:'gel',   name:'Glucose gel 🍬',     desc:'+2.5 fast · hypo emergency',
+   fx:function(){G+=2.5;COB+=2;return'Glucose gel — in bloodstream within 5 min. Emergency only.';},
+   cd:1, when:function(){return G<4.5;}, urgent:true},
+  {id:'juice', name:'Lucozade / juice',   desc:'+3.0 · mild hypo',
+   fx:function(){G+=3.0;COB+=5;return'Sugary drink — glucose rises in ~15 min.';},
+   cd:0, when:function(){return G<5.5;}},
+  {id:'snack', name:'Small snack 🍌',     desc:'+2.0 · prevent hypo',
+   fx:function(){G+=2.0;COB+=5;return'Small snack — banana, crackers, cereal bar.';},
+   cd:0, when:function(){return G<7.5;}},
+  {id:'walk',  name:'Light walk 🚶',      desc:'–0.8 · gentle drop',
+   fx:function(){G-=0.8;EOB+=3;return'20 min walk — lowers glucose gently, boosts insulin sensitivity.';},
+   cd:0, when:function(){return G>4.5;}},
+  {id:'check', name:'Check CGM 📱',       desc:'See full status + trend',
+   fx:function(){
+     var tr=G>PG?'rising':G<PG?'falling':'stable';
+     return 'BG: '+G.toFixed(1)+' ('+tr+'). IOB: '+(IOB>0.1?IOB.toFixed(1)+'U active':'none')+
+       '. COB: '+(COB>0.5?Math.round(COB)+'g remaining':'clear')+
+       (SICK?' | SICK DAY':'')+
+       (STRESSED?' | Stressed':'')+
+       (SLEEP_Q<0.7?' | Tired':'')+
+       (HOT?' | Hot day':'');},
+   cd:0, when:function(){return true;}},
+  {id:'nurse', name:'Ring diabetes nurse', desc:'Expert advice',
+   fx:function(){return getNurse();},
+   cd:0, when:function(){return true;}},
+  {id:'resite',name:'Rotate injection site',desc:'Fix absorption',
+   fx:function(){return'Moved to a fresh injection site — insulin will absorb predictably now.';},
+   cd:0, when:function(){return true;}},
+];}
 
-    {id:'basal', name:'Reduce basal',     desc:'Less background insulin',
-     fx:function(){IOB=Math.max(0,IOB-0.6);return'Reduced background insulin — good before exercise or overnight.';},
-     cd:6, when:function(){return IOB>0||G<5.5;}},
-
-    {id:'gel',   name:'Glucose gel 🍬',   desc:'+2.5 FAST — hypo only',
-     fx:function(){G+=2.5;COB+=2;return'Glucose gel — absorbed in 5 minutes. Emergency hypo treatment.';},
-     cd:1, when:function(){return G<4.5;}, urgent:true},
-
-    {id:'juice', name:'Lucozade/juice',   desc:'+3.0 rapid',
-     fx:function(){G+=3.0;COB+=5;return'Sugary drink — rapid glucose rise.';},
-     cd:0, when:function(){return G<5.5;}},
-
-    {id:'snack', name:'Small snack 🍌',   desc:'+2.0 moderate',
-     fx:function(){G+=2.0;COB+=5;return'Small snack — banana, cereal bar, crackers.';},
-     cd:0, when:function(){return G<7.5;}},
-
-    {id:'meal',  name:'Balanced meal 🍽', desc:'+3.5 — pre-bolus!',
-     fx:function(){G+=3.5;COB+=9;return'Full meal. Should pre-bolus 15–20 min beforehand.';},
-     cd:0, when:function(){return true;}},
-
-    {id:'walk',  name:'Walk it off 🚶',   desc:'–0.7 gentle',
-     fx:function(){G-=0.7;EOB+=3;return'20 min walk — gentle glucose drop.';},
-     cd:0, when:function(){return G>4.5;}},
-
-    {id:'run',   name:'Go for a run 🏃',  desc:'–2.5 significant',
-     fx:function(){G-=2.5;EOB+=7;return'Run — significant glucose drop, 2hr+ residual effect.';},
-     cd:0, when:function(){return G>5.5;}},
-
-    {id:'check', name:'Check CGM 📱',     desc:'Full status readout',
-     fx:function(){
-       var tr=G>PG?'rising':G<PG?'falling':'stable';
-       return'BG: '+G.toFixed(1)+' ('+tr+'). IOB: '+(IOB>0?IOB.toFixed(1)+'U':'none')+'. COB: '+(COB>0?Math.round(COB)+'g':'none')+(SICK?' | SICK':'')+( STRESSED?' | STRESSED':'')+(SLEEP_Q<0.7?' | KNACKERED':'')+(HOT?' | HOT DAY':'')+'.';},
-     cd:0, when:function(){return true;}},
-
-    {id:'nurse', name:'Ring diabetes nurse', desc:'Get expert advice',
-     fx:function(){return getNurse();},
-     cd:0, when:function(){return true;}},
-  ];
-  return acts;
-}
-
+window.showInfo=function(id){
+  var info=ACTION_INFO[id];if(!info)return;
+  document.getElementById('modal-title').textContent=info.title;
+  document.getElementById('modal-what').textContent=info.what;
+  document.getElementById('modal-how').textContent=info.how;
+  document.getElementById('modal-when').textContent='When to use: '+info.when;
+  document.getElementById('info-modal-bg').classList.remove('hidden');
+};
+window.closeInfoModal=function(){
+  document.getElementById('info-modal-bg').classList.add('hidden');
+};
+window.closeModal=function(e){
+  if(e.target===document.getElementById('info-modal-bg')) closeInfoModal();
+};
 function getNurse(){
-  if(G<3.5)return'EMERGENCY: treat hypo NOW — gel, juice, anything. Lie down. No insulin.';
-  if(G<3.9)return'Give 15g fast carbs immediately. Recheck in 15 min. No insulin.';
-  if(G<5.0)return'A bit low. Small snack, especially before sleep or exercise.';
-  if(G<=7&&!SICK&&!STRESSED)return'Perfect. Keep it up. Nothing needed right now.';
-  if(G<=7&&SICK)return'Good despite illness. Keep sipping fluids. Never skip insulin when sick.';
-  if(G<=10)return'Slightly high. Check IOB first — don\'t stack. Monitor 90 min.';
-  if(G<=13)return'High. Correction dose if no insulin in last 2 hrs. Check for stress or illness.';
-  return'VERY HIGH. Correction NOW. Check for ketones. If no improvement in 2hrs, go to A&E.';
+  if(G<3.5)return'EMERGENCY: hypo treatment NOW — glucose gel or juice. Lie down. No insulin.';
+  if(G<3.9)return'Give 15g fast carbs immediately. Recheck in 15 min. Do not give insulin.';
+  if(G<5.0)return'Slightly low. Small snack, especially before sleep or exercise.';
+  if(G<=7&&!SICK&&!STRESSED)return'Glucose is perfect. Nothing needed — keep it up.';
+  if(G<=7&&SICK)return'Good despite illness. Stay hydrated. Never skip insulin when sick.';
+  if(G<=10)return'A bit high. Check IOB before correcting — do not stack doses. Monitor 90 min.';
+  if(G<=13)return'Clearly high. Correction if no insulin in last 2 hrs. Rule out stress or illness.';
+  return'Very high — correction insulin needed now. Check for ketones. If unchanged in 2hrs, go to A&E.';
 }
 
 function getAlert(){
-  if(G<2.0)return{c:'danger',m:'☠️ FATAL: Alex has no brain fuel. He is unconscious. This is a medical emergency.'};
-  if(G<2.8)return{c:'danger',m:'🚨 CRITICAL HYPO: Alex is on the floor shaking. GLUCOSE GEL NOW. Call 999.'};
-  if(G<3.5)return{c:'danger',m:'🔴 Severe hypo: Alex is confused, pale and sweating. Give fast sugar IMMEDIATELY.'};
-  if(G<3.9)return{c:'danger',m:'⚠️ Hypoglycaemia: Alex feels dizzy and shaky. Blood glucose below 3.9. Give sugar.'};
-  if(G>18) return{c:'danger',m:'☠️ CRITICAL: Alex is vomiting, breathing weird. DKA. 999 NOW.'};
-  if(G>15) return{c:'danger',m:'🚨 Severe hyper: Alex is confused and very unwell. Correction insulin URGENT.'};
-  if(G>13) return{c:'danger',m:'🔴 High: Alex has a bad headache and is really thirsty. Needs insulin soon.'};
-  if(G>10) return{c:'warn', m:'🟡 Above 10: Alex feels rough and tired. Glucose in urine. Consider correction.'};
-  if(G>7.5)return{c:'warn', m:'Slightly raised. Post-meal drift — should come down if insulin is active.'};
-  if(G<4.5)return{c:'warn', m:'Low-normal. Alex feels a bit off. Snack soon, especially if he\'s about to exercise.'};
-  return{c:'ok',m:'✅ Alex is good. Glucose in target range. Keep it up!'};
+  if(G<1.8)return{c:'danger',m:'☠️ FATAL: Alex is unconscious. No glucose reaching the brain. Medical emergency — call 999 and administer glucagon.'};
+  if(G<2.8)return{c:'danger',m:'🚨 CRITICAL HYPO: Alex is on the floor, shaking and confused. GLUCOSE GEL NOW.'};
+  if(G<3.5)return{c:'danger',m:'🔴 Severe hypo: Alex is pale, dizzy, sweating. Give fast sugar IMMEDIATELY.'};
+  if(G<3.9)return{c:'danger',m:'⚠️ Hypo: Alex feels shaky and anxious. Glucose below 3.9 — give sugar now.'};
+  if(G>19)return{c:'danger',m:'☠️ CRITICAL: Alex is vomiting, confused, breathing rapidly. DKA — call 999 NOW.'};
+  if(G>15)return{c:'danger',m:'🚨 Severe hyper: Alex is very unwell, extreme thirst. Correction insulin urgently.'};
+  if(G>13)return{c:'danger',m:'🔴 High: Alex has a bad headache and is very thirsty. Needs insulin soon.'};
+  if(G>10)return{c:'warn',m:'🟡 Above 10: Alex feels tired and sluggish. Glucose spilling into urine. Consider correction.'};
+  if(G>7.5)return{c:'warn',m:'Slightly raised — likely post-meal. Should come down if insulin is on board.'};
+  if(G<4.5)return{c:'warn',m:'Low-normal: Alex feels a bit off. Snack soon, especially before exercise or sleep.'};
+  return{c:'ok',m:'✅ Alex is feeling good. Glucose in the target range. Nice work!'};
 }
 
 function getMood(){
@@ -607,117 +749,79 @@ function getMood(){
   if(G<4.5||G>10)return'😐';
   if(SICK)return'🤒';
   if(STRESSED)return'😰';
-  if(G>=4.5&&G<=7.5)return'😊';
-  return'😌';
+  return'😊';
 }
 
-/* ── MAIN TICK (every 1.8s = 30 min game-time) ── */
+/* ─── MAIN TICK ─── */
 function tick(){
   if(!ALIVE)return;
   TICKS++;PG=G;
 
-  /* Advance clock */
   MIN+=30;
   if(MIN>=60){MIN=0;HOUR++;}
   if(HOUR>=24){
     HOUR=0;DAY++;DONEDAYS++;SCORE+=100;
-    SLEEP_Q=Math.random()<0.3?0.5+Math.random()*0.3:1.0;
-    if(SICK){ILL_DAYS--;if(ILL_DAYS<=0){SICK=false;addLog('Alex is finally feeling better. Illness clearing up.','ok');}}
-    STRESSED=false;HOT=false;
-    HORMONES=Math.random()<0.2;
-    addLog('─── Day '+DAY+' starts ───','');
-    scheduleEvent();
+    SLEEP_Q=Math.random()<0.25?0.5+Math.random()*0.3:1.0;
+    if(SICK){ILL_DAYS--;if(ILL_DAYS<=0){SICK=false;addLog('Alex is starting to feel better — illness clearing up.','ok');}}
+    STRESSED=false;HOT=(Math.random()<0.1);
+    HORMONES=(Math.random()<0.15);
+    EV_COUNT=0;
+    addLog('─── Day '+DAY+' ───','');
+    buildSchedule();
   }
   if(DONEDAYS>=7){winGame();return;}
 
-  /* Tick cooldowns */
   Object.keys(CDS).forEach(function(k){if(CDS[k]>0)CDS[k]--;});
 
-  /* IOB decay: peaks fast, tapers over ~18 ticks (~9 hrs) */
+  /* IOB: action spread over ~20 ticks */
   if(IOB>0){
-    var sens = SICK?0.5 : STRESSED||HORMONES?0.72 : HOT?1.35 : SLEEP_Q<0.7?0.8 : 1.0;
-    var act = Math.min(IOB, IOB_PEAK*0.13) * sens;
-    G -= act;
-    IOB = Math.max(0, IOB - 0.13);
+    var sens=SICK?0.6:STRESSED||HORMONES?0.8:HOT?1.2:SLEEP_Q<0.7?0.85:1.0;
+    var act=Math.min(IOB,IOB_PEAK*0.11)*sens;
+    G-=act; IOB=Math.max(0,IOB-0.11);
   }
 
-  /* COB decay: absorbed over ~8 ticks */
+  /* COB: absorbed over ~8 ticks */
   if(COB>0){
-    G += Math.min(COB, 2.2)*0.12;
-    COB = Math.max(0, COB - 1.2);
+    G+=Math.min(COB,2.0)*0.11;
+    COB=Math.max(0,COB-1.0);
   }
 
-  /* Exercise decay */
-  if(EOB>0){G-=0.2;EOB=Math.max(0,EOB-1);}
+  /* Exercise residual */
+  if(EOB>0){G-=0.18;EOB=Math.max(0,EOB-1);}
 
   /* Background drift */
-  var drift = 0;
-  if(SICK)drift+=0.32;
-  if(STRESSED){drift+=0.2;if(Math.random()<0.1)STRESSED=false;}
-  if(HORMONES)drift+=0.15;
-  if(SLEEP_Q<0.7&&HOUR>=7&&HOUR<=11)drift+=0.15;
-  if(G>8)drift-=0.07;
-  if(G<4.5)drift+=0.08;
-  G += drift + (Math.random()-0.5)*0.25;
-  G = clamp(G, 1.0, 22.0);
+  var dr=0;
+  if(SICK)dr+=0.18;
+  if(STRESSED){dr+=0.12;if(Math.random()<0.1)STRESSED=false;}
+  if(HORMONES)dr+=0.08;
+  if(SLEEP_Q<0.7&&HOUR>=7&&HOUR<=11)dr+=0.08;
+  if(G>8)dr-=0.06;
+  if(G<4.5)dr+=0.06;
+  G+=dr+(Math.random()-0.5)*0.15;
+  G=clamp(G,1.0,22.0);
 
-  /* ── FIRE EVENT ── */
-  TICKS_TO_NEXT_EV--;
-  if(TICKS_TO_NEXT_EV<=0){
-    var ev = pickEvent();
-    fireEvent(ev);
-    scheduleEvent();
-  } else if(TICKS_TO_NEXT_EV===1){
-    document.getElementById('evcoming').classList.add('show');
-  }
+  /* Fire any scheduled events for this time */
+  checkSchedule();
 
-  /* In-range tracking */
   if(G>=3.9&&G<=7.0)INRANGE_TK++;
   TOTAL_TK++;
 
-  /* Penalty for ignoring */
-  if(TICKS - LAST_ACT > 6)SCORE=Math.max(0,SCORE-4);
+  if(TICKS-LAST_ACT>8)SCORE=Math.max(0,SCORE-2);
 
-  HIST.push(G);
-  if(HIST.length>72)HIST.shift();
-
+  HIST.push(G);if(HIST.length>80)HIST.shift();
   checkDeath();
   updateDisplay();
 }
 
-function fireEvent(ev){
-  ev.fx();
-  G = clamp(G, 1.0, 22.0);
-
-  var banner = document.getElementById('evbanner');
-  banner.className = 'evbanner show '+(ev.type==='danger'?'danger':ev.type==='ok'?'ok':'');
-  banner.textContent = '⚡ '+ev.msg;
-
-  if(ev.tip){
-    var tb = document.getElementById('tipbox');
-    tb.textContent = '📚 '+ev.tip;
-    tb.classList.add('show');
-  }
-
-  document.getElementById('evcoming').classList.remove('show');
-  addLog(ev.msg, ev.type||'event');
-
-  /* Auto-hide banner after 8 seconds */
-  setTimeout(function(){
-    document.getElementById('evbanner').classList.remove('show');
-    document.getElementById('tipbox').classList.remove('show');
-  }, 8000);
-}
-
 function checkDeath(){
-  if(G<1.8){
-    die('Alex is dead — severe hypoglycaemia',
-      'Blood glucose fell below 1.8 mmol/L. The brain has no glucose to function. Without an emergency glucagon injection this is fatal.',
-      'People with Type 1 diabetes are advised to keep a glucagon emergency kit at home and tell everyone they live with how to use it. Closed-loop insulin pumps can automatically suspend insulin during a hypo — but Alex doesn\'t have one.');
-  } else if(G>19.5){
-    die('Alex is dead — diabetic ketoacidosis (DKA)',
-      'Without enough insulin, the body broke down fat for fuel. Ketones acidified the blood to a lethal level.',
-      'DKA requires emergency hospital treatment: IV insulin, IV fluids, electrolyte replacement. Early signs include nausea, vomiting, fruity breath and deep fast breathing. Entirely preventable with correct insulin use.');
+  if(G<1.4){
+    die('Alex has died — severe hypoglycaemia',
+      'Blood glucose fell below 1.4 mmol/L. The brain cells had no glucose to function. Without an emergency glucagon injection this is fatal.',
+      'People with Type 1 diabetes are advised to keep a glucagon emergency kit at home and teach family members how to use it. Closed-loop insulin pump systems can automatically suspend insulin when glucose drops — but they\'re not available to everyone.');
+  }else if(G>20.5){
+    die('Alex has died — diabetic ketoacidosis (DKA)',
+      'Prolonged severe hyperglycaemia without enough insulin caused the body to switch to burning fat. Ketones acidified the blood to a lethal level.',
+      'DKA requires emergency hospital treatment: IV insulin, IV fluids, and electrolyte replacement. Early signs include nausea, vomiting, fruity-smelling breath, and deep rapid breathing. It is entirely preventable with correct insulin management.');
   }
 }
 
@@ -740,11 +844,14 @@ function winGame(){
   document.getElementById('win-score').textContent=SCORE;
   var tir=TOTAL_TK>0?Math.round((INRANGE_TK/TOTAL_TK)*100):0;
   document.getElementById('win-fact').textContent=
-    'Time in range: '+tir+'%. '+(tir>=70?'Outstanding — you hit the NHS target of 70%+.':tir>=55?'Decent — real world average is ~58% for Type 1.':'Tough week — target is 70%. Every % point matters for long-term health.')+
-    ' People with Type 1 diabetes make over 180 diabetes-related decisions every single day — school, parties, sport, illness, bad sleep — all while trying to live a normal life. Every day is this hard.';
+    'Time in range: '+tir+'%. '+
+    (tir>=70?'Outstanding — you hit the NHS target of 70%+ time in range.':
+     tir>=55?'Good — the real-world average for Type 1 is about 58%.':
+     'Challenging — the target is 70%. Every percentage point matters for long-term health.')+
+    ' In reality, people with Type 1 diabetes face this every single day — three meals, a workout, school stress, illness, and bad sleep — all constantly shifting the goalposts.';
 }
 
-/* ── DISPLAY ── */
+/* ─── DISPLAY ─── */
 window.doAct=function(id){
   if(!ALIVE)return;
   var a=getActions().find(function(x){return x.id===id;});
@@ -753,7 +860,7 @@ window.doAct=function(id){
   var msg=a.fx();
   G=clamp(G,1.0,22.0);
   if(a.cd>0)CDS[a.id]=a.cd;
-  SCORE+=15; LAST_ACT=TICKS;
+  SCORE+=15;LAST_ACT=TICKS;
   addLog(a.name+': '+msg,'ok');
   checkDeath();updateDisplay();
 };
@@ -769,38 +876,36 @@ function updateDisplay(){
   tr.style.color=col;
   document.getElementById('mood').textContent=getMood();
 
-  /* chips */
   var gc='ok',gt='Normal';
-  if(G<3.0){gc='danger';gt='CRITICAL';}else if(G<3.9){gc='danger';gt='Hypo!';}
-  else if(G>15){gc='danger';gt='DKA risk';}else if(G>13){gc='danger';gt='Very high';}
-  else if(G>10){gc='warn';gt='High';}else if(G>7.5){gc='warn';gt='Raised';}
+  if(G<3.0){gc='danger';gt='CRITICAL';}
+  else if(G<3.9){gc='danger';gt='Hypo!';}
+  else if(G>16){gc='danger';gt='DKA risk';}
+  else if(G>13){gc='danger';gt='Very high';}
+  else if(G>10){gc='warn';gt='High';}
+  else if(G>7.5){gc='warn';gt='Raised';}
   else if(G<4.5){gc='warn';gt='Low-normal';}
   sc('c-g',gc,gt);
-  sc('c-iob',IOB>0?'ok':'',IOB>0?'IOB: '+IOB.toFixed(1)+'U':'No insulin');
-  sc('c-cob',COB>0?'warn':'',COB>0?'Carbs: ~'+Math.round(COB)+'g left':'Fasting');
-  sc('c-eob',EOB>0?'ok':'',EOB>0?'Exercise active':'Sedentary');
-  var mod='Normal day';var modC='';
-  if(SICK){mod='Sick day';modC='danger';}
-  else if(STRESSED){mod='Stressed';modC='warn';}
-  else if(SLEEP_Q<0.7){mod='Knackered';modC='warn';}
-  else if(HOT){mod='Hot day';modC='warn';}
-  else if(HORMONES){mod='Hormones';modC='warn';}
+  sc('c-iob',IOB>0.1?'ok':'',IOB>0.1?'IOB: '+IOB.toFixed(1)+'U':'No insulin on board');
+  sc('c-cob',COB>0.5?'warn':'',COB>0.5?'Digesting ~'+Math.round(COB)+'g carbs':'Fasting / digested');
+  sc('c-eob',EOB>0?'ok':'',EOB>0?'Exercise effect active':'Sedentary');
+  var mod='Normal day',modC='';
+  if(SICK){mod='Sick day 🤒';modC='danger';}
+  else if(STRESSED){mod='Stressed 😰';modC='warn';}
+  else if(SLEEP_Q<0.7){mod='Tired 😴';modC='warn';}
+  else if(HOT){mod='Hot day ☀️';modC='warn';}
+  else if(HORMONES){mod='Hormonal 📅';modC='warn';}
   sc('c-mod',modC,mod);
 
   var al=getAlert();
   var ab=document.getElementById('alertbox');ab.className='alertbox '+al.c;ab.textContent=al.m;
 
-  /* crisis badge */
-  var crisis=G<3.5||G>14;
-  document.getElementById('b-crisis').classList.toggle('hidden',!crisis);
-
+  document.getElementById('b-crisis').classList.toggle('hidden',!(G<3.5||G>14));
   document.getElementById('b-day').textContent='Day '+DAY;
   document.getElementById('b-time').textContent=tstr();
   document.getElementById('b-score').textContent='Score: '+SCORE;
   var tir=TOTAL_TK>0?Math.round((INRANGE_TK/TOTAL_TK)*100):0;
   document.getElementById('b-tir').textContent='In range: '+tir+'%';
 
-  /* day dots */
   var dd=document.getElementById('ddots');
   if(dd){var h='';for(var i=1;i<=7;i++){var c=i<DAY?'done':i===DAY?'today':'';h+='<div class="dd '+c+'">'+i+'</div>';}dd.innerHTML=h;}
 
@@ -815,9 +920,14 @@ function renderActions(){
     var cd=(CDS[a.id]||0)>0,ok=a.when()&&!cd;
     var cdT=cd?' ('+CDS[a.id]+')':'';
     var urg=a.urgent&&G<4.5?' urgent':'';
-    return'<button class="abtn'+urg+'" onclick="doAct(\''+a.id+'\')" '+(ok?'':'disabled')+'>'
+    var hasInfo=!!ACTION_INFO[a.id];
+    return'<div class="abtn-row">'
+      +'<button class="abtn'+urg+'" onclick="doAct(\''+a.id+'\')" '+(ok?'':'disabled')+'>'
       +'<span class="an">'+a.name+'</span>'
-      +'<span class="ae">'+a.desc+cdT+'</span></button>';
+      +'<span class="ae">'+a.desc+cdT+'</span>'
+      +'</button>'
+      +(hasInfo?'<button class="info-btn" onclick="showInfo(\''+a.id+'\')" title="What is this?">?</button>':'')
+      +'</div>';
   }).join('');
 }
 
@@ -830,13 +940,11 @@ function drawGraph(){
   var gc2=dark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.06)';
   var tc=dark?'rgba(255,255,255,0.3)':'rgba(0,0,0,0.28)';
 
-  /* green zone */
   var y39=H-(3.9/20)*H,y70=H-(7.0/20)*H;
   ctx.fillStyle=dark?'rgba(39,80,10,0.2)':'rgba(39,80,10,0.1)';
   ctx.fillRect(0,y70,W,y39-y70);
 
-  /* gridlines */
-  [[3.9,'#E24B4A'],[7.0,'#1D9E75'],[10,'#EF9F27'],[13,'#C62828']].forEach(function(x){
+  [[3.9],[7.0],[10],[13]].forEach(function(x){
     var y=H-(x[0]/20)*H;
     ctx.strokeStyle=gc2;ctx.lineWidth=1;ctx.setLineDash([3,3]);
     ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
@@ -845,10 +953,8 @@ function drawGraph(){
   });
 
   if(HIST.length<2)return;
-  var pts=HIST.slice(-72);
+  var pts=HIST.slice(-80);
   var sw=W/Math.max(pts.length-1,1);
-
-  /* colour the line by zone */
   for(var i=1;i<pts.length;i++){
     var x0=(i-1)*sw,x1=i*sw;
     var y0=H-(pts[i-1]/20)*H,y1=H-(pts[i]/20)*H;
@@ -856,15 +962,12 @@ function drawGraph(){
     ctx.strokeStyle=gcol((pts[i-1]+pts[i])/2);
     ctx.lineWidth=2.5;ctx.setLineDash([]);ctx.stroke();
   }
-
-  /* endpoint dot */
   var last=pts[pts.length-1];
   var lx=(pts.length-1)*sw,ly=H-(last/20)*H;
-  ctx.beginPath();ctx.arc(lx,ly,4,0,Math.PI*2);
-  ctx.fillStyle=gcol(last);ctx.fill();
+  ctx.beginPath();ctx.arc(lx,ly,4,0,Math.PI*2);ctx.fillStyle=gcol(last);ctx.fill();
 }
 
-/* ── INIT ── */
+/* ─── INIT ─── */
 window.initGame=function(){
   G=5.0+Math.random()*0.8;PG=G;
   DAY=1;HOUR=8;MIN=0;SCORE=0;ALIVE=true;
@@ -872,21 +975,21 @@ window.initGame=function(){
   HIST=[G];LOG=[];TICKS=0;LAST_ACT=-99;
   CDS={};DONEDAYS=0;TOTAL_TK=0;INRANGE_TK=0;
   SICK=false;STRESSED=false;HORMONES=false;HOT=false;ILL_DAYS=0;
-  SLEEP_Q=1.0;EVENT_LOG_COUNT=0;
+  SLEEP_Q=1.0;EV_COUNT=0;SCHEDULE=[];
 
   document.getElementById('main-game').classList.remove('hidden');
   document.getElementById('screen-gameover').classList.add('hidden');
   document.getElementById('screen-win').classList.add('hidden');
   document.getElementById('evbanner').classList.remove('show');
   document.getElementById('tipbox').classList.remove('show');
-  document.getElementById('evcoming').classList.remove('show');
+
+  buildSchedule();
 
   addLog('Day 1 — Alex wakes up. Glucose: '+G.toFixed(1)+' mmol/L.','ok','8:00 AM');
-  addLog('Events will fire constantly. React fast. Target: 3.9–7.0 mmol/L.','','8:00 AM');
+  addLog('Meals at 7–8am, 12–1pm, 5–7pm. Workout mid-afternoon. Plus random events. React fast!','','8:00 AM');
 
-  scheduleEvent();
   if(TIMER)clearInterval(TIMER);
-  TIMER=setInterval(tick,1800);
+  TIMER=setInterval(tick,3000);
   updateDisplay();
 };
 
